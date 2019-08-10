@@ -1,0 +1,20 @@
+<template>
+  <div class="seccion-cliente">
+    <span>Bob</span>
+  </div>
+</template>
+
+
+<style>
+
+  .seccion-cliente{
+    font-size: 1rem;
+    color: rgb(24, 23, 23);
+    background-color: azure;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+
+  }
+  
+</style>

@@ -1,18 +1,23 @@
 <template>
   <div id="app" class="principal">
     <span>App</span>
+
+    <Entrada/>
   </div>
 </template>
 
 
 <script>
+  import Entrada from '@/views/Entrada.vue'
+
   export default {
+    components: { Entrada }
     
   }
 </script>
 
-
-<style >
+<!-- Si ponemos <style scoped> => forzamos que el estilo sea privado para este componente -->
+<style>
 
   .principal{
     background-color: rgb(182, 18, 18);
