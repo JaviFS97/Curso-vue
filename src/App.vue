@@ -12,7 +12,12 @@
 
   export default {
     name: 'App',
-    components: { Entrada }
+    components: { Entrada },
+    data() {
+      return {
+        titulo: 'Entradas'
+      }
+    }
     
   }
 </script>

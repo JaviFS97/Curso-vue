@@ -8,6 +8,15 @@
 <script>
   export default {
     name: 'Cliente', 
+
+    data() {
+      return {
+        nombres: 'Bob',
+        apellidos: 'Willson',
+        edad:25
+      }
+    }
+
   }
 </script>
 
