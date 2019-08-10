@@ -1,7 +1,14 @@
 <template>
   <div class="seccion-cliente">
-    <span>Bob</span>
+    <div>
+      <!-- Expresion js -->
+      <span> {{ nombres + " " + apellidos }}</span>
+    </div>
+    <div>
+      <span>Edad: {{ edad }}</span>
+    </div>
   </div>
+
 </template>
 
 
