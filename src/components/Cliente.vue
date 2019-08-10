@@ -31,20 +31,29 @@
      * del codigo html.
      * Es decir, se crean funciones js que contengan dichas expresiones para solo tener que llamar
      * desde el render declarativo al nombre de la funcion alojada en la propiedad computed.
+     * 
+     * ¿En que se diferencian las funciones computed de methods?
+     * La diferencia es que "computed properties are cached based on their reactive dependencies",
+     * esto significa que mientras que la fecha de nacimiento no cambie, no se volvera a evaluar
+     * la funcion sino que se devuelve un valor de cache.
+     * Computed esta orientado a funciones que tienen que ver con los datos (data) del componente.  
+     * 
      */
     computed: {
       // nombreCompleto: function () { ==  nombreCompleto() {
       nombreCompleto() {
         return this.nombres + " " + this.apellidos
       },
-      
-      /**
-       * En la base de datos no se guarda una edad, se guarda una fecha de nacimiento y de ahi
-       * se calcula la edad.
-       */
+
       edad() {
+        return this.calcularEdad(this.fechaNacimiento)
+      }
+    },
+
+    methods: {
+      calcularEdad(fecha){
         let fechaActual = new Date()
-        return Math.floor((fechaActual - this.fechaNacimiento) / ( 1000 * 365.25 * 24 * 60 * 60))
+        return Math.floor((fechaActual - fecha ) / ( 1000 * 365.25 * 24 * 60 * 60))
       }
     }
 
