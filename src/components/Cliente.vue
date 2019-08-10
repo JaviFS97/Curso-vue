@@ -5,6 +5,13 @@
 </template>
 
 
+<script>
+  export default {
+    name: 'Cliente', 
+  }
+</script>
+
+
 <style>
 
   .seccion-cliente{

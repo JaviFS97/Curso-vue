@@ -10,6 +10,7 @@
   import Cliente from '@/components/Cliente.vue'
 
   export default {
+    name: 'Entrada',
     components: { Cliente }
   }
 </script>
@@ -24,5 +25,5 @@
     border-radius: 10px;
     font-size: 1.5rem;
   }
-  
+
 </style>

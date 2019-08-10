@@ -11,6 +11,7 @@
   import Entrada from '@/views/Entrada.vue'
 
   export default {
+    name: 'App',
     components: { Entrada }
     
   }
