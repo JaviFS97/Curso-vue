@@ -1,6 +1,6 @@
 <template>
   <div class="anuncio">
-      <span>
+      <span v-once>
           {{ peliculas[indicePelicula] }}
       </span>
   </div>
