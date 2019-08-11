@@ -6,6 +6,15 @@
       -->
       <span> {{ nombreCompleto }}</span>
     </div>
+
+    <!-- Se puede colocar v-bind:src= o :src= , representa lo mismo. -->
+    <div>
+      <img v-bind:src="fotoPerfil" alt="">
+    </div>
+    <div>
+      <a :href="bibliografia" >Bibliografia</a>
+    </div>
+
     <div>
       <span>Edad: {{ edad }}</span>
     </div>
@@ -20,9 +29,11 @@
 
     data() {
       return {
-        nombres: 'Bob',
-        apellidos: 'Willson',
-        fechaNacimiento : new Date(1987, 7, 10)
+        nombres: 'Isaac',
+        apellidos: 'Newton',
+        fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg/220px-Sir_Isaac_Newton_%281643-1727%29.jpg',
+        bibliografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
+        fechaNacimiento : new Date(1642, 11, 25)
       }
     },
 
