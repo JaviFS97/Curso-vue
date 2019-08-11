@@ -1,29 +1,18 @@
 <template>
-  <div class="seccion-entrada">
-    <span>Entrada</span>
+  <div>
+    <Anuncio/>
     <Cliente/>
+    <Boletos/>
   </div>
 </template>
 
 
 <script>
   import Cliente from '@/components/Cliente.vue'
-
+  import Anuncio from '@/components/Anuncio.vue'
+  import Boletos from '@/components/Boletos.vue'
   export default {
     name: 'Entrada',
-    components: { Cliente }
+    components: { Cliente, Anuncio, Boletos }
   }
 </script>
-
-
-<style>
-
-  .seccion-entrada{
-    margin: 10px;
-    padding: 10px;
-    background-color: #553f75;
-    border-radius: 10px;
-    font-size: 1.5rem;
-  }
-
-</style>

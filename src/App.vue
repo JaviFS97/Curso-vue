@@ -1,18 +1,16 @@
 <template>
   <div id="app" class="principal">
     <span> {{ titulo }} </span>
-    <Anuncio/>
-    <Cliente/>
+    <Entrada/>
   </div>
 </template>
 
 
 <script>
-  import Cliente from '@/components/Cliente.vue'
-  import Anuncio from '@/components/Anuncio.vue'
+  import Entrada from '@/views/Entrada.vue'
   export default {
     name: 'App',
-    components: { Cliente, Anuncio},
+    components: { Entrada },
     data() {
       return {
         titulo: 'Entradas'
