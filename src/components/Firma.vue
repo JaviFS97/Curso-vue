@@ -1,5 +1,5 @@
 <template>
-    <canvas @mousemove="dibujar" ref="canFirma" class="firma">
+    <canvas @mousemove="dibujar" @mousedown=" puedoDibujar = true" @mouseup=" puedoDibujar = false"  ref="canFirma" class="firma">
 
     </canvas>
 
@@ -13,6 +13,7 @@
                 contexto: null,
                 x0: event.offsetX,
                 y0: event.offsetY,
+                puedoDibujar: false
             }
         },
         mounted(){
@@ -26,14 +27,15 @@
             dibujar(event){
                 const x1 = event.offsetX
                 const y1 = event.offsetY
-
-                this.contexto.beginPath()
-                this.contexto.moveTo(this.x0, this.y0)
-                this.contexto.lineTo(x1, y1)
-                this.contexto.stroke()
-
+                if (this.puedoDibujar){
+                    this.contexto.beginPath()
+                    this.contexto.moveTo(this.x0, this.y0)
+                    this.contexto.lineTo(x1, y1)
+                    this.contexto.stroke()
+                }
                 this.x0 = x1
                 this.y0 = y1
+
             }
         }
     }
