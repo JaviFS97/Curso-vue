@@ -32,5 +32,14 @@
     text-align: center;
     font-size: 2rem;
   }
+
+  .seccion{
+    font-size: 1.5rem;
+    color: rgb(24, 23, 23);
+    background-color: azure;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+  }
   
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="seccion">
       <div>{{ this.boletos}}</div>
       <button class='boton' v-on:click="actualizarCantidad(-1)">-</button>
       <button class='boton' v-on:click="actualizarCantidad(+1)">+</button>

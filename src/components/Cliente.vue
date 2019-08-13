@@ -1,5 +1,5 @@
 <template>
-  <div class="seccion-cliente">
+  <div class="seccion">
     <div>
       <!-- Expresion js 
       <span> {{ nombres + " " + apellidos }}</span>
@@ -74,14 +74,4 @@
 
 <style>
 
-  .seccion-cliente{
-    font-size: 1rem;
-    color: rgb(24, 23, 23);
-    background-color: azure;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 10px;
-
-  }
-  
 </style>
