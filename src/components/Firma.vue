@@ -1,5 +1,5 @@
 <template>
-    <canvas ref="canFirma" class="firma">
+    <canvas @mousemove="dibujar" ref="canFirma" class="firma">
 
     </canvas>
 
@@ -10,7 +10,9 @@
     export default {
         data(){
             return {
-                contexto: null
+                contexto: null,
+                x0: event.offsetX,
+                y0: event.offsetY,
             }
         },
         mounted(){
@@ -19,6 +21,20 @@
             this.contexto.strokeStyle = '#303030'
             this.contexto.lineWidth = 5
             this.contexto.lineCap = 'round'
+        },
+        methods: {
+            dibujar(event){
+                const x1 = event.offsetX
+                const y1 = event.offsetY
+
+                this.contexto.beginPath()
+                this.contexto.moveTo(this.x0, this.y0)
+                this.contexto.lineTo(x1, y1)
+                this.contexto.stroke()
+
+                this.x0 = x1
+                this.y0 = y1
+            }
         }
     }
 </script>
