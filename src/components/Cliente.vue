@@ -18,6 +18,9 @@
     <div>
       <span>Edad: {{ edad }}</span>
     </div>
+    <div>
+      <span>Edad: {{ this.emailRecibidoDesdeEntrada }}</span>
+    </div>
   </div>
 
 </template>
@@ -25,6 +28,7 @@
 
 <script>
   export default {
+    props: ['emailRecibidoDesdeEntrada'],
     name: 'Cliente', 
 
     data() {
@@ -67,7 +71,6 @@
         return Math.floor((fechaActual - fecha ) / ( 1000 * 365.25 * 24 * 60 * 60))
       }
     }
-
   }
 </script>
 

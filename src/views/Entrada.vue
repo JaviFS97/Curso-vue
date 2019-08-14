@@ -1,8 +1,8 @@
 <template>
   <div>
     <Anuncio/>
-    <Cliente/>
-    <Email v-bind:emailRecibidoDesdeEntrada="email"/>
+    <Cliente v-bind:emailRecibidoDesdeEntrada="email"/>
+    <Email v-bind:emailRecibidoDesdeEntrada="email" @onCambioEmail="actualizandoEmail"/>
     <Boletos/>
     <Firma/>
   </div>
@@ -21,6 +21,11 @@
     data() {
       return {
         email: 'isaacNewton@email.com'
+      }
+    },
+    methods: {
+      actualizandoEmail(email){
+        this.email = email
       }
     }
   }

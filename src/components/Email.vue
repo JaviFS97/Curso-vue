@@ -1,13 +1,8 @@
 <template>
     <div class="seccion">
         <div>
-            <input v-model="email" type="text">
+            Introduce email: <input v-model='email' @keyup.enter="actualizarEmail" type="text">
         </div>
-
-        <div>
-            Email: {{email}}
-        </div>
-
     </div>
 
 </template>
@@ -23,8 +18,10 @@
             }
         },
         methods:{
-            actualizarEmail(event){                
-                this.email = event.target.value
+            actualizarEmail(event){       
+                this.email = event.target.value      
+                this.$emit('onCambioEmail', this.email)
+
             }
         },
         created() {
