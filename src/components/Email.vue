@@ -1,7 +1,7 @@
 <template>
     <div class="seccion">
         <div>
-            <input @keyup.enter="actualizarEmail" type="text">
+            <input v-model="email" type="text">
         </div>
 
         <div>
