@@ -1,5 +1,11 @@
 <template>
-    <canvas @mousemove="dibujar" @mousedown=" puedoDibujar = true" @mouseup=" puedoDibujar = false"  ref="canFirma" class="firma">
+    <canvas 
+    @mousemove="dibujar" 
+    @mousedown.left="iniciarDibujo"
+    @mousedown.right="borrarBorrado"
+    @mouseup=" puedoDibujar = false"  
+    @contextmenu.prevent
+    ref="canFirma" class="firma">
 
     </canvas>
 
@@ -19,9 +25,7 @@
         mounted(){
             // Recuperamos la referencia del canvas
             this.contexto = this.$refs.canFirma.getContext('2d')
-            this.contexto.strokeStyle = '#303030'
-            this.contexto.lineWidth = 5
-            this.contexto.lineCap = 'round'
+
         },
         methods: {
             dibujar(event){
@@ -36,7 +40,21 @@
                 this.x0 = x1
                 this.y0 = y1
 
+            },
+            iniciarDibujo(){
+                this.contexto.strokeStyle = '#303030'
+                this.contexto.lineWidth = 5
+                this.contexto.lineCap = 'round'
+                this.puedoDibujar = true
+            },
+            borrarBorrado() {
+                this.contexto.strokeStyle = 'white'
+                this.contexto.lineWidth = 10
+                this.contexto.lineCap = 'round'
+                this.puedoDibujar = true
             }
+
+
         }
     }
 </script>
