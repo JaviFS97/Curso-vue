@@ -15,6 +15,8 @@
 
 <script>
     export default {
+        props: ['emailRecibidoDesdeEntrada'],
+
         data(){
             return{
                 email: ''
@@ -24,6 +26,9 @@
             actualizarEmail(event){                
                 this.email = event.target.value
             }
+        },
+        created() {
+            this.email = this.emailRecibidoDesdeEntrada
         }
     }
 </script>

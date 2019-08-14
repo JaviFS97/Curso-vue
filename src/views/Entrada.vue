@@ -2,7 +2,7 @@
   <div>
     <Anuncio/>
     <Cliente/>
-    <Email/>
+    <Email v-bind:emailRecibidoDesdeEntrada="email"/>
     <Boletos/>
     <Firma/>
   </div>
@@ -17,6 +17,11 @@
   import Email from '@/components/Email.vue'
   export default {
     name: 'Entrada',
-    components: { Cliente, Anuncio, Boletos, Firma, Email }
+    components: { Cliente, Anuncio, Boletos, Firma, Email },
+    data() {
+      return {
+        email: 'isaacNewton@email.com'
+      }
+    }
   }
 </script>
