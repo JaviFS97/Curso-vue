@@ -41,5 +41,18 @@
     margin: 10px;
     padding: 10px;
   }
+
+  button {
+    background-color: #553f75;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-style: none;
+    border-radius: 5px;
+    padding: 3px 10px;
+    margin: 3px 5px;
+    min-width: 35px;  
+    cursor: pointer;
+  }
   
 </style>

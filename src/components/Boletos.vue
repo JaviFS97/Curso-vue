@@ -1,50 +1,79 @@
 <template>
-  <div class="seccion">
-      <span>Boletos:</span>
-      <div v-if="this.boletos==0 && this.pago==false" class="mensaje informacion"> Seleccion al menos un boleto.</div>
-      <div v-else-if="this.boletos>=0 && this.pago==false" class="mensaje advertencia"> Recuerda completar la compra.</div>
-      <div v-else class="mensaje exito"> ¡Bienvenido!</div>
-      <div>{{ this.boletos}}</div>
-      <div v-show="boletos >=1">Total: ${{precioTotal()}}</div>
-      <button class='boton' v-on:click="actualizarCantidad(-1)">-</button>
-      <button class='boton' v-on:click="actualizarCantidad(+1)">+</button>
-      <div>
-        <button class='boton' @click='pago = true' v-if="pago==false && boletos >=1">Pagar</button>
-        <button class='boton' @click='reiniciarPago()' v-else-if="pago==true">Reiniciar</button>
-      </div>
-      
-      <div v-bind:class="this.claseComision">Comision: ${{ this.comision}}</div>
+    <div>
 
-  </div>
+        <div class="seccion">
+            <div v-if="this.boletos==0 && this.pago==false" class="mensaje informacion"> Seleccion al menos un boleto.</div>
+            <div v-else-if="this.boletos>=0 && this.pago==false" class="mensaje advertencia"> Recuerda completar la compra.</div>
+            <div v-else class="mensaje exito"> ¡Bienvenido!</div>
+            <span>Asientos: </span>
+            <div>
+                <button v-on:click="addAsiento(asiento, index)" v-for="(asiento, index) in asientos" :key="index">{{asiento}}</button>
+            </div>
+            
+        </div>
+
+        <div class="seccion">
+            <span>Boletos:</span>
+
+            <div>{{ this.boletos}}</div>
+            <div>
+                <button v-on:click="addAsientoSeleccionado(asiento, index)" v-for="(asiento, index) in asientosSeleccionados" :key="index">{{asiento}}</button>
+            </div>
+            <div>
+                <button class='boton' @click='pago = true' v-if="pago==false && boletos >=1">Pagar</button>
+                <button class='boton' @click='reiniciarPago()' v-else-if="pago==true">Reiniciar</button>
+            </div>
+            
+            <div v-bind:class="this.claseComision">Comision: ${{ this.comision}}</div>
+
+        </div>
+
+
+    </div>
 
 </template>
 
 
 <script>
-    const MAXBOLETOS = 10
     export default {
         data(){
             return{
-                boletos: 0,
                 comision: 0,
                 claseComision: 'neutro',
-                pago: false
+                pago: false,
+                asientos: [
+                    'A1', 'A2', 'A3', 'A4', 'A5',
+                    'B1', 'B2', 'B3', 'B4', 'B5'
+                ],
+                asientosSeleccionados: []
             }
         },
-        methods:{
-            actualizarCantidad(cantidad){
-                this.boletos += cantidad
-                if (this.boletos > MAXBOLETOS)
-                    this.boletos = MAXBOLETOS 
-                else if(this.boletos < 0)
-                    this.boletos = 0   
-            },
+        computed: {
+            boletos() {
+                return this.asientosSeleccionados.length
+            }
+        },
+        methods: {
             reiniciarPago(){
-                this.boletos = 0
+                this.asientos.push(...this.asientosSeleccionados)
+                this.asientosSeleccionados = []
                 this.pago = false
+                this.asientos.sort()
             },
             precioTotal(){
                 return this.boletos * 100
+            },
+            // Añadir un asiento a la lista de asientos seleccionados
+            addAsiento(asiento, index){
+                this.asientos.splice(index, 1)
+                this.asientosSeleccionados.push(asiento)
+                this.asientosSeleccionados.sort()
+            },
+            // Añadir un asiento que esta en la lista de asientos seleccionados a la lista de asientos
+           addAsientoSeleccionado(asiento, index){
+                this.asientosSeleccionados.splice(index, 1)
+                this.asientos.push(asiento)
+                this.asientos.sort()
             }
         },
         watch: {
@@ -72,17 +101,6 @@
 </script>
 
 <style>
-    .boton {
-        background-color: rgb(12, 12, 179);
-        border-radius: 5px;
-        border-style: none;
-        color: white;
-        font-size: 15px;
-        padding: 3px 10px;
-        margin: 3px 5px;
-        cursor: pointer;
-    }
-
 
     .neutro {
         color: black;
