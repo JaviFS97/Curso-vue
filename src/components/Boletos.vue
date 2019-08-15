@@ -5,6 +5,7 @@
       <div v-else-if="this.boletos>=0 && this.pago==false" class="mensaje advertencia"> Recuerda completar la compra.</div>
       <div v-else class="mensaje exito"> ¡Bienvenido!</div>
       <div>{{ this.boletos}}</div>
+      <div v-show="boletos >=1">Total: ${{precioTotal()}}</div>
       <button class='boton' v-on:click="actualizarCantidad(-1)">-</button>
       <button class='boton' v-on:click="actualizarCantidad(+1)">+</button>
       <div>
@@ -12,7 +13,7 @@
         <button class='boton' @click='reiniciarPago()' v-else-if="pago==true">Reiniciar</button>
       </div>
       
-      <div v-bind:class="this.claseComision">${{ this.comision}}</div>
+      <div v-bind:class="this.claseComision">Comision: ${{ this.comision}}</div>
 
   </div>
 
@@ -41,6 +42,9 @@
             reiniciarPago(){
                 this.boletos = 0
                 this.pago = false
+            },
+            precioTotal(){
+                return this.boletos * 100
             }
         },
         watch: {
