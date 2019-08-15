@@ -1,10 +1,19 @@
 <template>
   <div class="seccion">
-      <span>Boletos</span>
+      <span>Boletos:</span>
+      <div v-if="this.boletos==0 && this.pago==false" class="mensaje informacion"> Seleccion al menos un boleto.</div>
+      <div v-else-if="this.boletos>=0 && this.pago==false" class="mensaje advertencia"> Recuerda completar la compra.</div>
+      <div v-else class="mensaje exito"> ¡Bienvenido!</div>
       <div>{{ this.boletos}}</div>
       <button class='boton' v-on:click="actualizarCantidad(-1)">-</button>
       <button class='boton' v-on:click="actualizarCantidad(+1)">+</button>
+      <div>
+        <button class='boton' @click='pago = true' v-if="pago==false && boletos >=1">Pagar</button>
+        <button class='boton' @click='reiniciarPago()' v-else-if="pago==true">Reiniciar</button>
+      </div>
+      
       <div v-bind:class="this.claseComision">${{ this.comision}}</div>
+
   </div>
 
 </template>
@@ -15,9 +24,10 @@
     export default {
         data(){
             return{
-                boletos: 1,
-                comision: 10,
-                claseComision: 'neutro'
+                boletos: 0,
+                comision: 0,
+                claseComision: 'neutro',
+                pago: false
             }
         },
         methods:{
@@ -27,6 +37,10 @@
                     this.boletos = MAXBOLETOS 
                 else if(this.boletos < 0)
                     this.boletos = 0   
+            },
+            reiniciarPago(){
+                this.boletos = 0
+                this.pago = false
             }
         },
         watch: {
@@ -55,7 +69,7 @@
 
 <style>
     .boton {
-        background-color: blue;
+        background-color: rgb(12, 12, 179);
         border-radius: 5px;
         border-style: none;
         color: white;
@@ -76,6 +90,25 @@
 
     .decremento {
         color: red;
+    }
+
+    .mensaje {
+        border-radius: 5px;
+        border-width: 4px;
+        border-style: dashed;
+        color: black;
+    }
+
+    .informacion {
+        color: blue;
+    }
+
+    .advertencia {
+        color: red;
+    }
+
+    .exito {
+        color: green;
     }
 
 </style>
