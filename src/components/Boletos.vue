@@ -2,9 +2,12 @@
     <div>
 
         <div class="seccion">
-            <div v-if="this.boletos==0 && this.pago==false" class="mensaje informacion"> Seleccion al menos un boleto.</div>
-            <div v-else-if="this.boletos>=0 && this.pago==false" class="mensaje advertencia"> Recuerda completar la compra.</div>
-            <div v-else class="mensaje exito"> ¡Bienvenido!</div>
+            <transition name="mensaje-scale" mode="out-in"> 
+                <div v-if="this.boletos==0 && this.pago==false" class="mensaje informacion" :key="1"> Selecciona al menos un boleto.</div>
+                <div v-else-if="this.boletos>=0 && this.pago==false" class="mensaje advertencia" :key="2"> Recuerda completar la compra.</div>
+                <div v-else class="mensaje exito" :key="3"> ¡Bienvenido!</div>
+            </transition>
+
             <span>Asientos: </span>
             <div>
                 <button v-on:click="addAsiento(asiento, index)" v-for="(asiento, index) in asientos" :key="index">{{asiento}}</button>
@@ -131,6 +134,51 @@
 
     .exito {
         color: green;
+    }
+
+    /* Estas 3 propiedades son transiciones css */
+    .mensaje-scale-enter{
+        opacity: 0;
+        
+    }
+
+    .mensaje-scale-enter-active{
+        transition: opacity 0.6s ease-out;
+        /* Vinculo la transisicion con la animacion*/
+        animation: mensaje-in 0.3s ease-out forwards;
+    }
+
+    .mensaje-scale-leave{
+        transition: opacity 0.2s ease-out;
+        /* Vinculo la transisicion con la animacion*/
+        animation: mensaje-out 0.2s ease-out forwards;
+        opacity: 0;
+    }
+
+    /* Estas 2 propiedades son animaciones css */
+    @keyframes mensaje-out {
+        from{
+            transform: scaleY(0)
+        }
+        to{
+            transform: scaleY(1)
+        }
+        /*from == 0%, to == 100%*/
+        
+    }
+    @keyframes mensaje-in {
+        /* Lo hago con porcentajes para ver que se puede hacer de 2 formas.*/
+        0%{
+            transform: scaleY(0)
+        }
+        70%{
+            transform: scaleY(1.2)
+        }
+        100%{
+            transform: scaleY(1)
+        }
+
+        
     }
 
 </style>
