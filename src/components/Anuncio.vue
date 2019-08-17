@@ -1,8 +1,24 @@
 <template>
   <div class="anuncio">
-      <span v-once>
-          {{ peliculas[indicePelicula] }}
-      </span>
+      <!-- Vue proporciona el componente transition. Que permite incluir transiciones 
+      entrada/salida de cualquier componente que sea(ver https://vuejs.org/v2/guide/transitions.html)
+      
+      El nombre de la transicion sirve para vincular el componente con las animaciones creadas
+      en sl codigo css. 
+      
+      El modo 'out-in' significa que hasta que el elemento presente en la vista no haya terminado
+      su animacion de salida, no entrara el nuevo elemento
+
+      Es nesario asignar una key al span porque la animacion se ejecuta por cada elemento que cambia.
+      Si no se asinga una key el span representa un elemento unico.
+
+      -->
+      <transition name="mitransicion-fade" mode="out-in"> 
+        <span :key="indicePelicula">
+            {{ peliculas[indicePelicula] }}
+        </span>      
+      </transition>
+
   </div>
 
 </template>
@@ -71,6 +87,24 @@ import { setInterval } from 'timers';
 
         border-bottom-style: solid;
         border-bottom-width: 1px;
+    }
+
+    /*  Cada transicion tiene 2 acciones: la entrada y la salida.
+        La entrada esta formada por: fade-enter y fade-enter-active.
+        La salida por: fade-leave y fade-leave-active.
+    */
+
+    .mitransicion-fade-enter {
+        opacity: 0;
+    }
+
+    .mitransicion-fade-enter-active {
+        transition: opacity 1s ease-out;
+    }
+
+    .mitransicion-fade-leave {
+        transition: opacity .6s ease-out;
+        opacity: 0;
     }
     
 </style>
