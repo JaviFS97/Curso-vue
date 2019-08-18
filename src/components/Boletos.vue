@@ -22,6 +22,7 @@
             <span>Boletos:</span>
 
             <div>{{ this.boletos}}</div>
+            <div> Total: ${{this.precioTotal()}} </div>
             <div>
                 <button v-on:click="addAsientoSeleccionado(asiento, index)" v-for="(asiento, index) in asientosSeleccionados" :key="index">{{asiento}}</button>
             </div>
@@ -34,6 +35,26 @@
 
         </div>
 
+        <transition name="ticket">
+            <Ticket v-if="pago==true">
+                <div slot="obra">
+                    <span> EL rey Leon</span>
+                </div>
+                <div slot="horario">
+                    <span>2019-01-14 22:00</span>
+                </div>
+                <div slot="asientos">
+                    <span v-for="(asiento, index) in asientosSeleccionados" :key="index" class="asiento">
+                        {{asiento}}
+                    </span>
+                </div>
+                <div slot="total">
+                    ${{this.precioTotal()}}
+                </div>
+            
+            </Ticket>        
+        </transition>
+
 
     </div>
 
@@ -41,7 +62,10 @@
 
 
 <script>
+
+    import Ticket from './Ticket'
     export default {
+        components: {Ticket},
         data(){
             return{
                 comision: 0,
@@ -61,25 +85,32 @@
         },
         methods: {
             reiniciarPago(){
-                this.asientos.push(...this.asientosSeleccionados)
-                this.asientosSeleccionados = []
-                this.pago = false
-                this.asientos.sort()
+                if (!this.pago){
+                    this.asientos.push(...this.asientosSeleccionados)
+                    this.asientosSeleccionados = []
+                    this.pago = false
+                    this.asientos.sort()
+                }
+
             },
             precioTotal(){
                 return this.boletos * 100
             },
             // Añadir un asiento a la lista de asientos seleccionados
             addAsiento(asiento, index){
-                this.asientos.splice(index, 1)
-                this.asientosSeleccionados.push(asiento)
-                this.asientosSeleccionados.sort()
+                if (!this.pago){
+                    this.asientos.splice(index, 1)
+                    this.asientosSeleccionados.push(asiento)
+                    this.asientosSeleccionados.sort()
+                }
             },
             // Añadir un asiento que esta en la lista de asientos seleccionados a la lista de asientos
            addAsientoSeleccionado(asiento, index){
-                this.asientosSeleccionados.splice(index, 1)
-                this.asientos.push(asiento)
-                this.asientos.sort()
+                if (!this.pago){
+                    this.asientosSeleccionados.splice(index, 1)
+                    this.asientos.push(asiento)
+                    this.asientos.sort()
+                }
             }
         },
         watch: {
@@ -139,6 +170,13 @@
         color: green;
     }
 
+    .asiento {
+        border-style: solid;
+        margin: 5px;
+        padding: 5px;
+        font-size: 1rem;
+    }
+
     /* Estas 3 propiedades son transiciones css */
     .mensaje-scale-enter{
         opacity: 0;
@@ -186,7 +224,6 @@
 
 
     /* Codigo para animar la seleccion de butacas. */
-
     .escogerAsiento-enter{
         opacity: 0;        
     }
@@ -214,7 +251,6 @@
         100%{
             transform: translateY(30px)
         }
-
     }
     @keyframes escogerAsiento-in {
         0%{
@@ -226,8 +262,48 @@
         100%{
             transform: translateY(0px)
         }
+    }
 
-        
+
+    /* Codigo para la animacion del ticket*/
+    .ticket-enter{
+        opacity: 0;        
+    }
+
+    .ticket-enter-active{
+        transition: opacity 0.3s ease-out;
+        /* Vinculo la transisicion con la animacion*/
+        animation: ticket-in 0.3s ease-out forwards;
+    }
+
+    .ticket-leave{
+        transition: opacity 0.2s ease-out;
+        /* Vinculo la transisicion con la animacion*/
+        animation: ticket-out 0.2s ease-out forwards;
+        opacity: 0;
+    }
+
+    @keyframes ticket-out {
+        0%{
+            transform: translateY(0px)
+        }
+        70%{
+            transform: translateY(40px)
+        }
+        100%{
+            transform: translateY(30px)
+        }
+    }
+    @keyframes ticket-in {
+        0%{
+            transform: translateY(30px)
+        }
+        70%{
+            transform: translateY(-10px) /* Se desplaza 10px hacia arriba respecto su posicion para dar efecto rebote */
+        }
+        100%{
+            transform: translateY(0px)
+        }
     }
 
 </style>
