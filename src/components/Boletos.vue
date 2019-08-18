@@ -10,7 +10,10 @@
 
             <span>Asientos: </span>
             <div>
-                <button v-on:click="addAsiento(asiento, index)" v-for="(asiento, index) in asientos" :key="index">{{asiento}}</button>
+                <transition-group name="escogerAsiento">
+                    <button v-on:click="addAsiento(asiento, index)" v-for="(asiento, index) in asientos" :key="asiento">{{asiento}}</button>
+                </transition-group>
+                
             </div>
             
         </div>
@@ -176,6 +179,52 @@
         }
         100%{
             transform: scaleY(1)
+        }
+
+        
+    }
+
+
+    /* Codigo para animar la seleccion de butacas. */
+
+    .escogerAsiento-enter{
+        opacity: 0;        
+    }
+
+    .escogerAsiento-enter-active{
+        transition: opacity 0.3s ease-out;
+        /* Vinculo la transisicion con la animacion*/
+        animation: escogerAsiento-in 0.3s ease-out forwards;
+    }
+
+    .escogerAsiento-leave{
+        transition: opacity 0.2s ease-out;
+        /* Vinculo la transisicion con la animacion*/
+        animation: escogerAsiento-out 0.2s ease-out forwards;
+        opacity: 0;
+    }
+
+    @keyframes escogerAsiento-out {
+        0%{
+            transform: translateY(0px)
+        }
+        70%{
+            transform: translateY(40px)
+        }
+        100%{
+            transform: translateY(30px)
+        }
+
+    }
+    @keyframes escogerAsiento-in {
+        0%{
+            transform: translateY(30px)
+        }
+        70%{
+            transform: translateY(-10px) /* Se desplaza 10px hacia arriba respecto su posicion para dar efecto rebote */
+        }
+        100%{
+            transform: translateY(0px)
         }
 
         
