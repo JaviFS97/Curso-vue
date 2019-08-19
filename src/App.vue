@@ -17,10 +17,10 @@
 </template>
 
 <script>
-  import Home from './views/Home.vue'
+  //import Home from './views/Home.vue'
   import Registro from './views/usuario/Registro.vue'
   export default {
-    components : {Home, Registro},
+    components : {Registro},
     name: 'App',
     data: () => ({
       titulo : 'Super Opera',
