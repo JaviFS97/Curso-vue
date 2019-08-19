@@ -9,15 +9,18 @@
     </v-app-bar>
 
     <v-content>
-      <Home/>
+      <v-container>
+        <Registro/>
+      </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
   import Home from './views/Home.vue'
+  import Registro from './views/usuario/Registro.vue'
   export default {
-    components : {Home},
+    components : {Home, Registro},
     name: 'App',
     data: () => ({
       titulo : 'Super Opera',
