@@ -1,5 +1,3 @@
 <template>
-    <div class="seccion">
-        <span>Soy Home</span>
-    </div>    
+  <div></div>
 </template>
