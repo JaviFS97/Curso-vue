@@ -9,8 +9,8 @@
     </v-app-bar>
 
     <v-content>
-      <v-container>
-        <Registro/>
+      <v-container fill-height>
+        <component :is="this.componenteActual"></component>
       </v-container>
     </v-content>
   </v-app>
@@ -19,10 +19,13 @@
 <script>
   //import Home from './views/Home.vue'
   import Registro from './views/usuario/Registro.vue'
+  import Login from './views/usuario/Login.vue'
+
   export default {
-    components : {Registro},
+    components : {Registro, Login},
     name: 'App',
     data: () => ({
+      componenteActual: 'Login',
       titulo : 'Super Opera',
     }),
   };
