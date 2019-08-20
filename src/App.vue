@@ -20,12 +20,13 @@
   //import Home from './views/Home.vue'
   import Registro from './views/usuario/Registro.vue'
   import Login from './views/usuario/Login.vue'
+  import Perfil from './views/usuario/Perfil.vue'
 
   export default {
-    components : {Registro, Login},
+    components : {Registro, Login, Perfil},
     name: 'App',
     data: () => ({
-      componenteActual: 'Login',
+      componenteActual: 'Perfil',
       titulo : 'Super Opera',
     }),
   };
