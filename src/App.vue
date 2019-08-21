@@ -21,13 +21,18 @@
   import Registro from './views/usuario/Registro.vue'
   import Login from './views/usuario/Login.vue'
   import Perfil from './views/usuario/Perfil.vue'
+  import Home from './views/Home.vue'
 
   export default {
-    components : {Registro, Login, Perfil},
+    components : {Registro, Login, Perfil, Home},
     name: 'App',
     data: () => ({
-      componenteActual: 'Perfil',
+      componenteActual: 'Home',
       titulo : 'Super Opera',
     }),
   };
 </script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Great+Vibes&display=swap');
+</style> 
