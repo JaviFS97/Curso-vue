@@ -48,10 +48,9 @@
 
     <v-app-bar color="primary" dark app>
       <v-app-bar-nav-icon @click="menu = !menu"></v-app-bar-nav-icon>
-      <v-toolbar-title class="headline text-uppercase">
-        <span> {{this.titulo}} </span>
-      </v-toolbar-title>
-      
+      <v-toolbar-title @click="seleccionarVista('Home')" class="logo">
+        <span > {{this.titulo}} </span>
+      </v-toolbar-title>      
     </v-app-bar>
 
 
@@ -107,4 +106,11 @@
 
 <style>
   @import url('https://fonts.googleapis.com/css?family=Great+Vibes&display=swap');
+
+  .logo{
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    cursor: pointer;
+
+  }
 </style> 
