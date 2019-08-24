@@ -61,6 +61,21 @@
         <component :is="this.componenteActual"></component>
       </v-container>
     </v-content>
+
+    <v-footer color="primary" dark="">
+      <v-container>
+        <v-row justify="center"> 
+          <span> Curso Vue.js y Firebase</span>
+
+        </v-row>
+        <v-row justify="center">
+          <span>2019</span>
+        </v-row>
+          
+      </v-container>
+      
+    </v-footer>
+
   </v-app>
 </template>
 
