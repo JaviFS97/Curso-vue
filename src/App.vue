@@ -57,7 +57,9 @@
 
     <v-content>
       <v-container fill-height>
-        <component :is="this.componenteActual"></component>
+        <v-slide-y-transition mode="out-in">
+          <component :is="this.componenteActual"></component>
+        </v-slide-y-transition>
       </v-container>
     </v-content>
 
