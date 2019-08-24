@@ -1,12 +1,60 @@
 <template>
   <v-app>
+    <v-navigation-drawer v-model="menu" app>
+      <v-list>
+        <!-- Home -->
+        <v-list-item @click="seleccionarVista('Home')">
+          <v-list-item-avatar>
+            <v-icon>home</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>Inicio</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <!-- Perfil -->
+        <v-list-item @click="seleccionarVista('Perfil')"> 
+          <v-list-item-avatar>
+            <v-icon>account_circle</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>Perfil</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <!-- Registro -->
+        <v-list-item @click="seleccionarVista('Registro')">
+          <v-list-item-avatar>
+            <v-icon>contact_mail</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>Registro</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <!-- Ingresar -->
+        <v-list-item @click="seleccionarVista('Login')">
+          <v-list-item-avatar>
+            <v-icon>arrow_forward</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>Ingresar</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+
+    </v-navigation-drawer>
+
     <v-app-bar color="primary" dark app>
+      <v-app-bar-nav-icon @click="menu = !menu"></v-app-bar-nav-icon>
       <v-toolbar-title class="headline text-uppercase">
         <span> {{this.titulo}} </span>
-        <span class="font-weight-light"></span>
       </v-toolbar-title>
-
+      
     </v-app-bar>
+
+
 
     <v-content>
       <v-container fill-height>
@@ -29,7 +77,16 @@
     data: () => ({
       componenteActual: 'Home',
       titulo : 'Super Opera',
+      menu: false
     }),
+    methods: {
+      seleccionarVista (nombreVista) {
+        this.componenteActual = nombreVista
+        // Una vez seleccionado la vista, cerrar el menu.
+        this.menu = false
+      }
+    }
+
   };
 </script>
 
