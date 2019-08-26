@@ -9,12 +9,12 @@
                         </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
-                        <v-text-field label="Email" v-model="email" :error-messages="this.erroresEmail" @blur="$v.email.$touch()"></v-text-field>
-                        <v-text-field label="Password" type="password" v-model="password" :error-messages="this.erroresPassword" @input="$v.password.$touch()"></v-text-field>
+                        <v-text-field label="Email" v-model="formulario.email" :error-messages="this.erroresEmail" @blur="$v.formulario.email.$touch()"></v-text-field>
+                        <v-text-field label="Password" type="password" v-model="formulario.password" :error-messages="this.erroresPassword" @input="$v.formulario.password.$touch()" @keyup.enter="ingresar"></v-text-field>
                     </v-card-text>
                     <v-card-text>     
                         <v-layout justify-end>
-                            <v-btn @click="vista++" color="secondary">Siguiente</v-btn>    
+                            <v-btn @click="ingresar" color="secondary" :disabled="$v.formulario.$invalid">Ingresar</v-btn>    
                         </v-layout>           
                         
                     </v-card-text>
@@ -33,40 +33,56 @@
     export default {
         data(){
             return {
-                email: '',
-                password: ''
+                formulario: {   // Agrupamos en un objeto superior email y password para que a la hora de comprobar si el formulario es correcto no haya que ir input por input.
+                    email: '',
+                    password: ''
+                }
+
             }
         },
         // Propiedad de Vuelidate
         validations: {
-            // Validamos la variable con nombre 'email'.
-            email: {
-                required,   // Se debe introducir un valor.
-                email       // El valor debe tener formato de email.
-            },
-            password: {
-                required,
-                minLength: minLength(6),
-                maxLength: maxLength(20)
+            formulario: {
+                // Validamos la variable con nombre 'email'.
+                email: {
+                    required,   // Se debe introducir un valor.
+                    email       // El valor debe tener formato de email.
+                },
+                password: {
+                    required,
+                    minLength: minLength(6),
+                    maxLength: maxLength(20)
+                }
             }
+
         },
         computed: {
             erroresEmail() {
                 let errores = []
-                if (!this.$v.email.$dirty){ return errores}
-                if (!this.$v.email.required){ errores.push("Ingresa tu email.")}
-                if (!this.$v.email.email){ errores.push("Ingresa un email valido.")}
+                if (!this.$v.formulario.email.$dirty){ return errores}
+                if (!this.$v.formulario.email.required){ errores.push("Ingresa tu email.")}
+                if (!this.$v.formulario.email.email){ errores.push("Ingresa un email valido.")}
                 return errores
             },
             erroresPassword() {
                 let errores = []
-                if (!this.$v.password.$dirty){ return errores}
-                if (!this.$v.password.required){ errores.push("Ingresa tu contraseña.")}
-                if (!this.$v.password.minLength){ errores.push("Ingresa un password con al menos 6 caracteres.")}
-                if (!this.$v.password.maxLength){ errores.push("Ingresa un password con menos de 20 caracteres.")}
+                if (!this.$v.formulario.password.$dirty){ return errores}
+                if (!this.$v.formulario.password.required){ errores.push("Ingresa tu contraseña.")}
+                if (!this.$v.formulario.password.minLength){ errores.push("Ingresa un password con al menos 6 caracteres.")}
+                if (!this.$v.formulario.password.maxLength){ errores.push("Ingresa un password con menos de 20 caracteres.")}
                 return errores
+            }
+        },
+        methods: {
+            ingresar() {
+                // Por este motivo agrupamos email y password en un objeto formulario que los contenga.
+                if(this.$v.formulario.$invalid) {
+                    this.$v.formulario.$touch()
+                    return
+                }
+                alert('Consultando...')
             }
         }
 
     }
-</script>
+</script>formulario.
