@@ -1,7 +1,7 @@
 <template>
     <v-layout justify-center="" align-center>
         <v-flex sm10>
-            <v-slide-y-transition mode="out-in">
+            <v-slide-y-transition mode="out-in" @enter="entrarVistaCalendario">
                 <v-card v-if="vista==1" :key="1">
                     <v-toolbar color="primary" dark card>
                         <v-toolbar-title>
@@ -59,7 +59,7 @@
                     </v-toolbar>
                     <v-card-text>
                         <v-layout justify-center>
-                            <v-date-picker v-model="fechaNacimiento" locale="es-co"></v-date-picker>
+                            <v-date-picker v-model="fechaNacimiento" locale="es-co" :max="fechaMaximaISO" ref="referenciaCalendario" reactive></v-date-picker>
                         </v-layout >
                     </v-card-text>
                     <v-card-text>    
@@ -72,7 +72,7 @@
                                 </v-col>
                                 <v-col>
                                     <v-row justify="end">
-                                        <v-btn @click="vista++" color="secondary">Registrarse</v-btn>    
+                                        <v-btn @click="registrar()" color="secondary">Registrarse</v-btn>    
                                     </v-row>
                                 </v-col>
                             </v-row>
@@ -95,7 +95,6 @@
         data() {
             return {
                 vista: 1,
-                fechaNacimiento: null,
                 formulario1: {
                     email: '',
                     password: '',
@@ -104,8 +103,19 @@
                 formulario2: {
                     nombre: '',
                     apellidos: ''
-                }
+                },
+                fechaNacimiento: null,
+                fechaMaximaISO: ''
             }
+        },
+        created(){
+            let fechaActual = new Date()
+            // Solo la gente con 13 años de edad puede registrarse
+            let fechaMaxima = new Date( fechaActual.setFullYear(fechaActual.getFullYear() - 13)).toISOString()
+            // Se transforma a iso porque es el formato que pide el componente de vuetify.
+            this.fechaMaximaISO = fechaMaxima.substring(0,10)
+
+           
         },
         validations: {
             formulario1: {
@@ -136,6 +146,9 @@
                     maxLength: maxLength(30), 
                     alpha,  // Solo acepta caracteres del alfabeto. 
                 }
+            },
+            fechaNacimiento: {
+                required
             }
         },
         computed: {
@@ -204,6 +217,15 @@
                             this.vista++
 
                 } 
+            },
+            entrarVistaCalendario(){
+                this.$refs.referenciaCalendario.activePicker = 'YEAR'
+            },
+            registrar(){
+                if(this.$v.fechaNacimiento.$invalid)
+                    return
+                
+                alert("Registrando")
             }
         }
     }
