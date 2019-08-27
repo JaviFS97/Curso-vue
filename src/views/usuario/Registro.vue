@@ -28,8 +28,8 @@
                         </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
-                        <v-text-field label="Nombre"></v-text-field>
-                        <v-text-field label="Apellidos" type="password"></v-text-field>
+                        <v-text-field label="Nombre" v-model="formulario2.nombre" :error-messages="erroresNombre" @blur="$v.formulario2.nombre.$touch()"></v-text-field>
+                        <v-text-field label="Apellidos" v-model="formulario2.apellidos" :error-messages="erroresApellidos" @blur="$v.formulario2.apellidos.$touch()"></v-text-field>
                     </v-card-text>
                     <v-card-text>    
                         <v-container>
@@ -42,7 +42,7 @@
                                 </v-col>
                                 <v-col>
                                     <v-row justify="end">
-                                        <v-btn @click="vista++" color="secondary" justify-end>Siguiente</v-btn>        
+                                        <v-btn @click="siguienteVista(2)" color="secondary" justify-end>Siguiente</v-btn>        
                                     </v-row>
                                 </v-col>
                             </v-row>      
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-    import {required, email, minLength, maxLength, sameAs} from 'vuelidate/lib/validators'
+    import {required, email, minLength, maxLength, sameAs, alpha} from 'vuelidate/lib/validators'
 
     export default {
      
@@ -100,6 +100,10 @@
                     email: '',
                     password: '',
                     repetirPassword: '',
+                },
+                formulario2: {
+                    nombre: '',
+                    apellidos: ''
                 }
             }
         },
@@ -117,6 +121,20 @@
                 repetirPassword: {
                     required,
                     sameAs: sameAs('password')
+                }
+            },
+            formulario2: {
+                nombre: {
+                    required,
+                    minLength: minLength(3),
+                    maxLength: maxLength(20), 
+                    alpha,  // Solo acepta caracteres del alfabeto.
+                },
+                apellidos: {
+                    required,
+                    minLength: minLength(6),
+                    maxLength: maxLength(30), 
+                    alpha,  // Solo acepta caracteres del alfabeto. 
                 }
             }
         },
@@ -150,7 +168,43 @@
                     return errores                    
                 }
 
-            }            
+            },
+            erroresNombre() {
+                let errores = []
+                if (!this.$v.formulario2.nombre.$dirty){ return errores}
+                else{
+                    if (!this.$v.formulario2.nombre.required){ errores.push("Ingresa tu nombre.")}
+                    if (!this.$v.formulario2.nombre.minLength){ errores.push("Ingresa un nombre con al menos 6 caracteres.")}
+                    if (!this.$v.formulario2.nombre.maxLength){ errores.push("Ingresa un nombre con menos de 20 caracteres.")}
+                    if (!this.$v.formulario2.nombre.alpha){ errores.push("Tu nombre solo puede contener letras del alfabeto.")}
+                    return errores
+                } 
+            },
+            erroresApellidos() {
+                let errores = []
+                if (!this.$v.formulario2.apellidos.$dirty){ return errores}
+                else{
+                    if (!this.$v.formulario2.apellidos.required){ errores.push("Ingresa tu apellido.")}
+                    if (!this.$v.formulario2.apellidos.minLength){ errores.push("Ingresa un apellido con al menos 6 caracteres.")}
+                    if (!this.$v.formulario2.apellidos.maxLength){ errores.push("Ingresa un apellido con menos de 20 caracteres.")}
+                    if (!this.$v.formulario2.apellidos.alpha){ errores.push("Tu apellido solo puede contener letras del alfabeto.")}
+                    return errores
+                } 
+            }                         
         },
+        methods: {
+            siguienteVista(numVista){
+                switch(numVista){
+                    //case 1:
+                        // No es necesario porque el boton siguiente no se activa hasta que el formulario1 sea valido.
+                    case 2:
+                        if (this.$v.formulario2.$invalid)
+                            this.$v.formulario2.$touch()
+                        else
+                            this.vista++
+
+                } 
+            }
+        }
     }
 </script>
