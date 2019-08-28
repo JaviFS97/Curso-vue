@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import Vuelidate from 'vuelidate'
+import store from './store.js'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
@@ -10,5 +11,6 @@ Vue.use(Vuelidate)
 
 new Vue({
   vuetify,
+  store,
   render: h => h(App)
 }).$mount('#app')
