@@ -88,7 +88,11 @@
 </template>
 
 <script>
-    import {required, email, minLength, maxLength, sameAs, alpha} from 'vuelidate/lib/validators'
+    import {required, email, minLength, maxLength, sameAs} from 'vuelidate/lib/validators'
+
+    // Validador personalizado para que el nombre y apellidos puedan contener espacios y acentos.
+    const validacionNombresYApellidos = (value) => /^(?! )(?!.* {2})[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]+$/.test(value)
+
 
     export default {
      
@@ -138,13 +142,13 @@
                     required,
                     minLength: minLength(3),
                     maxLength: maxLength(20), 
-                    alpha,  // Solo acepta caracteres del alfabeto.
+                    validacionNombresYApellidos // Validacion propia, eliminamos la validacion de vuelidate 'alpha'
                 },
                 apellidos: {
                     required,
                     minLength: minLength(6),
                     maxLength: maxLength(30), 
-                    alpha,  // Solo acepta caracteres del alfabeto. 
+                    validacionNombresYApellidos // Validacion propia, eliminamos la validacion de vuelidate 'alpha'
                 }
             },
             fechaNacimiento: {
@@ -189,7 +193,7 @@
                     if (!this.$v.formulario2.nombre.required){ errores.push("Ingresa tu nombre.")}
                     if (!this.$v.formulario2.nombre.minLength){ errores.push("Ingresa un nombre con al menos 6 caracteres.")}
                     if (!this.$v.formulario2.nombre.maxLength){ errores.push("Ingresa un nombre con menos de 20 caracteres.")}
-                    if (!this.$v.formulario2.nombre.alpha){ errores.push("Tu nombre solo puede contener letras del alfabeto.")}
+                    if (!this.$v.formulario2.nombre.validacionNombresYApellidos){ errores.push("Tu nombre solo puede contener letras del alfabeto.")}
                     return errores
                 } 
             },
@@ -200,7 +204,7 @@
                     if (!this.$v.formulario2.apellidos.required){ errores.push("Ingresa tu apellido.")}
                     if (!this.$v.formulario2.apellidos.minLength){ errores.push("Ingresa un apellido con al menos 6 caracteres.")}
                     if (!this.$v.formulario2.apellidos.maxLength){ errores.push("Ingresa un apellido con menos de 20 caracteres.")}
-                    if (!this.$v.formulario2.apellidos.alpha){ errores.push("Tu apellido solo puede contener letras del alfabeto.")}
+                    if (!this.$v.formulario2.apellidos.validacionNombresYApellidos){ errores.push("Tu apellido solo puede contener letras del alfabeto.")}
                     return errores
                 } 
             }                         
