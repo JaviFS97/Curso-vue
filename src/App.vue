@@ -50,7 +50,9 @@
       <v-app-bar-nav-icon @click="menu = !menu"></v-app-bar-nav-icon>
       <v-toolbar-title @click="seleccionarVista('Home')" class="logo">
         <span > {{this.titulo}} </span>
-      </v-toolbar-title>      
+      </v-toolbar-title> 
+      <v-spacer></v-spacer>     
+      <span v-if="usuario!=null"> {{ usuario.nombre}} </span>
     </v-app-bar>
 
 
@@ -100,6 +102,11 @@
         this.componenteActual = nombreVista
         // Una vez seleccionado la vista, cerrar el menu.
         this.menu = false
+      }
+    },
+    computed: {
+      usuario(){
+        return this.$store.state.usuario
       }
     }
 

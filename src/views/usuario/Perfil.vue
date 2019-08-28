@@ -3,18 +3,30 @@
         <v-card>
             <v-card-text>
                 <div class="ma-2">
-                    Nombre y apellidos
+                    {{ usuario.nombre + ' ' + usuario.apellidos }}
                 </div>
-                <img class="ma-2 fotoPerfil" v-bind:src="require('@/assets/fotoUsuario.png')" alt="">
+                
+                <v-img class="ma-2 fotoPerfil" :src=" usuario.fotoPerfil" alt=""></v-img>
                 <div>
-                    Descripcion
+                    {{ usuario.descripcion }}
                 </div>
-                <a href="" class="ma-2">Biografia</a>
+                <a :href="usuario.biografia" class="ma-2">Biografia</a>
             </v-card-text>
         </v-card>
 
     </v-layout>
 </template>
+
+
+<script>
+    export default {
+        computed: {
+            usuario(){
+                return this.$store.state.usuario
+            }
+        }
+    }
+</script>
 
 
 <style>

@@ -80,7 +80,20 @@
                     this.$v.formulario.$touch()
                     return
                 }
-                alert('Consultando...')
+  
+                // Creamos un usuario
+                let usuario = {
+                    userName: 'newton',
+                    nombre: 'Isaac',
+                    apellidos: 'Newton',
+                    sexo: 'masculino',
+                    descripcion: 'añadir descripcion',
+                    biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
+                    fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
+                }
+
+                // Lo asociamos con el usuario que esta presente en la propiedad state de vuex.
+                this.$store.state.usuario = usuario
             }
         }
 
