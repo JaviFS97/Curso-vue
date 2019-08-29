@@ -98,6 +98,9 @@
                  *  2. Haciendo uso de mutacion.
                  */ 
                 this.$store.commit('actualizarUsuario', usuario)
+
+                // Saludamos al usuario que acaba de logearse
+                this.$store.commit('mostrarNotificacionExito', 'Bienvenido '+usuario.nombre, 6000)
             }
         }
 

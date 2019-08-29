@@ -65,6 +65,16 @@
       </v-container>
     </v-content>
 
+    <v-snackbar v-model="notificacion.visible" :color="notificacion.color" :timeout="notificacion.duracion" top>
+      {{notificacion.mensaje}}
+      
+      <v-btn dark text @click="ocultarNotificacion">
+        Cerrar
+      </v-btn>
+
+
+    </v-snackbar>
+
     <v-footer color="primary" dark="">
       <v-container>
         <v-row justify="center"> 
@@ -102,11 +112,17 @@
         this.componenteActual = nombreVista
         // Una vez seleccionado la vista, cerrar el menu.
         this.menu = false
+      },
+      ocultarNotificacion(){
+        this.$store.commit('ocultarNotificacion')
       }
     },
     computed: {
       usuario(){
         return this.$store.state.usuario
+      },
+      notificacion(){
+        return this.$store.state.notificacion
       }
     }
 
