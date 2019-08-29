@@ -87,7 +87,7 @@ import { setTimeout } from 'timers';
                     userName: 'newton',
                     nombre: 'Isaac',
                     apellidos: 'Newton',
-                    sexo: 'masculino',
+                    sexo: 'M',
                     descripcion: 'añadir descripcion',
                     biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
                     fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
@@ -108,7 +108,7 @@ import { setTimeout } from 'timers';
                     this.$store.commit('actualizarUsuario', usuario)
 
                     // Saludamos al usuario que acaba de logearse
-                    this.$store.commit('mostrarNotificacionExito', 'Bienvenido '+usuario.nombre, 6000)
+                    this.$store.commit('mostrarNotificacionExito', this.$store.getters.saludo , 6000)
 
                      this.$store.commit('ocultarOcupado')
                 }, 1000)

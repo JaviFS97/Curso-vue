@@ -69,6 +69,13 @@ export default new Vuex.Store({
     }
   },
   getters: {
-
+    saludo(state){
+      if(!state.usuario){
+        return 
+      }else{
+        let vocal = state.usuario.sexo && state.usuario.sexo == "M" ? 'o':'a'
+        return '¡Bienvenid' + vocal + ' ' + state.usuario.nombre + '!' 
+      }
+    }
   }
 })
