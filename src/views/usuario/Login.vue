@@ -92,8 +92,12 @@
                     fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
                 }
 
-                // Lo asociamos con el usuario que esta presente en la propiedad state de vuex.
-                this.$store.state.usuario = usuario
+                /**
+                 * Lo asociamos con el usuario que esta presente en la propiedad state de vuex. Dos formas:
+                 *  1. Sin uso de mutacion: this.$store.state.usuario = usuario
+                 *  2. Haciendo uso de mutacion.
+                 */ 
+                this.$store.commit('actualizarUsuario', usuario)
             }
         }
 

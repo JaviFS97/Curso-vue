@@ -9,7 +9,9 @@ export default new Vuex.Store({
     usuario: null
   },
   mutations: {
-
+    actualizarUsuario(state, usuario){
+      state.usuario = usuario
+    }
   },
   actions: {
 
