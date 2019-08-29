@@ -75,6 +75,23 @@
 
     </v-snackbar>
 
+    <v-dialog v-model="ocupado.visible" max-width="400" persistent>
+      <v-card>
+        <v-toolbar color="primary" dark card>
+          <v-toolbar-title>
+            {{ocupado.titulo}}
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-card-text class="subheading">
+          {{ocupado.mensaje}}
+        </v-card-text>
+          <v-progress-linear indeterminate color="primary"></v-progress-linear>
+        <v-card-text>
+
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
     <v-footer color="primary" dark="">
       <v-container>
         <v-row justify="center"> 
@@ -123,6 +140,9 @@
       },
       notificacion(){
         return this.$store.state.notificacion
+      },
+      ocupado(){
+        return this.$store.state.ocupado
       }
     }
 

@@ -29,6 +29,7 @@
 
     // Importamos las funciones que vamos a usar para la validacion de la variable 'email'.
     import {required, email, minLength, maxLength} from 'vuelidate/lib/validators'
+import { setTimeout } from 'timers';
 
     export default {
         data(){
@@ -92,15 +93,26 @@
                     fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
                 }
 
-                /**
-                 * Lo asociamos con el usuario que esta presente en la propiedad state de vuex. Dos formas:
-                 *  1. Sin uso de mutacion: this.$store.state.usuario = usuario
-                 *  2. Haciendo uso de mutacion.
-                 */ 
-                this.$store.commit('actualizarUsuario', usuario)
+                let ocupado = {
+                    titulo: "Validando credenciales",
+                    mensaje: "Estamos validando tu información..."
+                }
+                this.$store.commit('mostrarOcupado',ocupado)
 
-                // Saludamos al usuario que acaba de logearse
-                this.$store.commit('mostrarNotificacionExito', 'Bienvenido '+usuario.nombre, 6000)
+                setTimeout( () => {
+                    /**
+                     * Lo asociamos con el usuario que esta presente en la propiedad state de vuex. Dos formas:
+                     *  1. Sin uso de mutacion: this.$store.state.usuario = usuario
+                     *  2. Haciendo uso de mutacion.
+                     */ 
+                    this.$store.commit('actualizarUsuario', usuario)
+
+                    // Saludamos al usuario que acaba de logearse
+                    this.$store.commit('mostrarNotificacionExito', 'Bienvenido '+usuario.nombre, 6000)
+
+                     this.$store.commit('ocultarOcupado')
+                }, 3000)
+
             }
         }
 
