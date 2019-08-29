@@ -64,7 +64,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-
+    cerrarSesion(context){
+      context.commit('actualizarUsuario', null)
+    }
   },
   getters: {
 

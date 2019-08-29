@@ -111,7 +111,7 @@ import { setTimeout } from 'timers';
                     this.$store.commit('mostrarNotificacionExito', 'Bienvenido '+usuario.nombre, 6000)
 
                      this.$store.commit('ocultarOcupado')
-                }, 3000)
+                }, 1000)
 
             }
         }

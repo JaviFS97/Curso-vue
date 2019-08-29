@@ -13,7 +13,7 @@
         </v-list-item>
 
         <!-- Perfil -->
-        <v-list-item @click="seleccionarVista('Perfil')"> 
+        <v-list-item v-if="usuario" @click="seleccionarVista('Perfil')"> 
           <v-list-item-avatar>
             <v-icon>account_circle</v-icon>
           </v-list-item-avatar>
@@ -23,7 +23,7 @@
         </v-list-item>
 
         <!-- Registro -->
-        <v-list-item @click="seleccionarVista('Registro')">
+        <v-list-item v-if="!usuario" @click="seleccionarVista('Registro')">
           <v-list-item-avatar>
             <v-icon>contact_mail</v-icon>
           </v-list-item-avatar>
@@ -33,12 +33,22 @@
         </v-list-item>
 
         <!-- Ingresar -->
-        <v-list-item @click="seleccionarVista('Login')">
+        <v-list-item v-if="!usuario" @click="seleccionarVista('Login')">
           <v-list-item-avatar>
             <v-icon>arrow_forward</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>Ingresar</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <!-- Cerrar sesion -->
+        <v-list-item v-if="usuario" @click="cerrarSesion">
+          <v-list-item-avatar>
+            <v-icon>arrow_back</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>Cerrar sesion</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -132,6 +142,10 @@
       },
       ocultarNotificacion(){
         this.$store.commit('ocultarNotificacion')
+      },
+      cerrarSesion(){
+        this.$store.dispatch('cerrarSesion')
+        this.menu = false
       }
     },
     computed: {
