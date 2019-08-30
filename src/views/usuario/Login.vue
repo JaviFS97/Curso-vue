@@ -29,7 +29,10 @@
 
     // Importamos las funciones que vamos a usar para la validacion de la variable 'email'.
     import {required, email, minLength, maxLength} from 'vuelidate/lib/validators'
-import { setTimeout } from 'timers';
+    import { setTimeout } from 'timers';
+
+    // Importamos para hacer mapping en vuex
+    import {mapMutations, mapGetters} from 'vuex'
 
     export default {
         data(){
@@ -58,6 +61,7 @@ import { setTimeout } from 'timers';
 
         },
         computed: {
+            ...mapGetters(['saludo']),
             erroresEmail() {
                 let errores = []
                 if (!this.$v.formulario.email.$dirty){ return errores}
@@ -75,6 +79,7 @@ import { setTimeout } from 'timers';
             }
         },
         methods: {
+            ...mapMutations(['mostrarOcupado', 'actualizarUsuario', 'mostrarNotificacionExito', 'ocultarOcupado' ]),
             ingresar() {
                 // Por este motivo agrupamos email y password en un objeto formulario que los contenga.
                 if(this.$v.formulario.$invalid) {
@@ -97,7 +102,7 @@ import { setTimeout } from 'timers';
                     titulo: "Validando credenciales",
                     mensaje: "Estamos validando tu información..."
                 }
-                this.$store.commit('mostrarOcupado',ocupado)
+                this.mostrarOcupado(ocupado)
 
                 setTimeout( () => {
                     /**
@@ -105,12 +110,12 @@ import { setTimeout } from 'timers';
                      *  1. Sin uso de mutacion: this.$store.state.usuario = usuario
                      *  2. Haciendo uso de mutacion.
                      */ 
-                    this.$store.commit('actualizarUsuario', usuario)
+                    this.actualizarUsuario(usuario)
 
                     // Saludamos al usuario que acaba de logearse
-                    this.$store.commit('mostrarNotificacionExito', this.$store.getters.saludo , 6000)
+                    this.mostrarNotificacionExito(this.saludo , 6000)
 
-                     this.$store.commit('ocultarOcupado')
+                     this.ocultarOcupado()
                 }, 1000)
 
             }

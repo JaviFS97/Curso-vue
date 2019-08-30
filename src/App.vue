@@ -43,7 +43,7 @@
         </v-list-item>
 
         <!-- Cerrar sesion -->
-        <v-list-item v-if="usuario" @click="cerrarSesion">
+        <v-list-item v-if="usuario" @click="cerrarSesionVista">
           <v-list-item-avatar>
             <v-icon>arrow_back</v-icon>
           </v-list-item-avatar>
@@ -126,6 +126,9 @@
   import Perfil from './views/usuario/Perfil.vue'
   import Home from './views/Home.vue'
 
+  // Importamos para hacer mapping en vuex
+  import {mapState, mapActions, mapMutations} from 'vuex'
+
   export default {
     components : {Registro, Login, Perfil, Home},
     name: 'App',
@@ -140,15 +143,32 @@
         // Una vez seleccionado la vista, cerrar el menu.
         this.menu = false
       },
+      ...mapMutations(['ocultarNotificacion']),
+      /** 
+       * La instruccion mapActions hace exactamente lo que tenemos debajo.
+
       ocultarNotificacion(){
         this.$store.commit('ocultarNotificacion')
       },
+      */
+     
+     ...mapActions(['cerrarSesion']),
+      cerrarSesionVista(){
+        this.cerrarSesion()
+        this.menu = false
+      }
+      /**
       cerrarSesion(){
         this.$store.dispatch('cerrarSesion')
         this.menu = false
       }
+       */
     },
     computed: {
+      ...mapState(['usuario', 'notificacion', 'ocupado'])
+      /**
+      La instruccion mapState hace exactamente lo que tenemos debajo.
+
       usuario(){
         return this.$store.state.usuario
       },
@@ -157,7 +177,8 @@
       },
       ocupado(){
         return this.$store.state.ocupado
-      }
+      }      
+      */
     }
 
   };
