@@ -1,12 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+// Importo los modulos
+import sesion from './modules/sesion.js'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules: {
+    sesion
+  },
   state: {
-    // Se crea y asocia a esta variable desde la vista login.
-    usuario: null,
     notificacion: {
       visible: false,
       mensaje: '',
@@ -21,10 +25,6 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    actualizarUsuario(state, usuario){
-      state.usuario = usuario
-    },
-
     mostrarNotificacionInformacion(state, mensaje, duracion){
       state.notificacion.color = 'info'
       state.notificacion.mensaje = mensaje
@@ -64,18 +64,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    cerrarSesion(context){
-      context.commit('actualizarUsuario', null)
-    }
+
   },
   getters: {
-    saludo(state){
-      if(!state.usuario){
-        return 
-      }else{
-        let vocal = state.usuario.sexo && state.usuario.sexo == "M" ? 'o':'a'
-        return '¡Bienvenid' + vocal + ' ' + state.usuario.nombre + '!' 
-      }
-    }
+
   }
 })

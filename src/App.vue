@@ -150,7 +150,7 @@
     },
     computed: {
       usuario(){
-        return this.$store.state.usuario
+        return this.$store.state.sesion.usuario
       },
       notificacion(){
         return this.$store.state.notificacion
