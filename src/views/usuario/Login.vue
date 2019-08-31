@@ -105,10 +105,10 @@ import { setTimeout } from 'timers';
                      *  1. Sin uso de mutacion: this.$store.state.usuario = usuario
                      *  2. Haciendo uso de mutacion.
                      */ 
-                    this.$store.commit('actualizarUsuario', usuario)
+                    this.$store.commit('sesion/actualizarUsuario', usuario)
 
-                    // Saludamos al usuario que acaba de logearse                    
-                    this.$store.commit('mostrarNotificacionExito', this.$store.getters.saludo , 6000)
+                    // Saludamos al usuario que acaba de logearse   
+                    this.$store.commit('mostrarNotificacionExito', "Has inicido sesion.", 6000)
 
                     this.$store.commit('ocultarOcupado')
                 }, 1000)
@@ -117,4 +117,4 @@ import { setTimeout } from 'timers';
         }
 
     }
-</script>formulario.
+</script>

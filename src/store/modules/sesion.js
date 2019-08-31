@@ -1,5 +1,6 @@
 
 export default({
+  namespaced: true,
   state: {
     // Se crea y asocia a esta variable desde la vista login.
     usuario: null

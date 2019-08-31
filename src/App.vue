@@ -144,7 +144,7 @@
         this.$store.commit('ocultarNotificacion')
       },
       cerrarSesion(){
-        this.$store.dispatch('cerrarSesion')
+        this.$store.dispatch('sesion/cerrarSesion')
         this.menu = false
       }
     },
