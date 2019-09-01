@@ -5,9 +5,11 @@ import Login from './views/usuario/Login.vue'
 import Registro from './views/usuario/Registro.vue'
 import Perfil from './views/usuario/Perfil.vue'
 
+import store from '@/store'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -29,7 +31,32 @@ export default new Router({
     {
       path: '/usuario/perfil',
       name: 'perfil',
-      component: Perfil
+      component: Perfil,
+      meta: {
+        autenticado: true
+      }
+      // beforeEnter: (to, from, next) => {
+      //   // Debemos importar store porque en 'router.js' no tenemos una instancia de vue.
+      //     if(store.state.sesion.usuario)
+      //         next()
+      //     else
+      //         next({name:'login'})
+      // }
+
     },
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some( record => record.meta.autenticado)){
+    // Debemos importar store porque en 'router.js' no tenemos una instancia de vue.
+    if(store.state.sesion.usuario)
+        next()
+    else
+        next({name:'login'})
+  }else{
+    next()
+  }
+})
+
+export default router

@@ -19,12 +19,19 @@
 
 
 <script>
+    //import store from '@/store'
     export default {
         computed: {
             usuario(){
                 return this.$store.state.sesion.usuario
             }
-        }
+        },
+        // beforeRouteEnter (to, from, next) {
+        //     if(store.state.sesion.usuario)
+        //         next()
+        //     else
+        //         next({name:'login'})
+        // }
     }
 </script>
 
