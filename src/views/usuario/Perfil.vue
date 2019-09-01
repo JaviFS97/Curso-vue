@@ -1,6 +1,6 @@
 <template>
     <v-layout text-xs-center align-start justify-center>
-        <v-card>
+        <v-card v-if="usuario">
             <v-card-text>
                 <div class="ma-2">
                     {{ usuario.nombre + ' ' + usuario.apellidos }}
