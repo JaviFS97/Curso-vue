@@ -3,7 +3,7 @@
     <v-navigation-drawer v-model="menu" app>
       <v-list>
         <!-- Home -->
-        <v-list-item @click="seleccionarVista('Home')">
+        <v-list-item :to="{ path: '/'}">
           <v-list-item-avatar>
             <v-icon>home</v-icon>
           </v-list-item-avatar>
@@ -13,7 +13,7 @@
         </v-list-item>
 
         <!-- Perfil -->
-        <v-list-item v-if="usuario" @click="seleccionarVista('Perfil')"> 
+        <v-list-item v-if="usuario" :to="{ name: 'perfil'}"> 
           <v-list-item-avatar>
             <v-icon>account_circle</v-icon>
           </v-list-item-avatar>
@@ -23,7 +23,7 @@
         </v-list-item>
 
         <!-- Registro -->
-        <v-list-item v-if="!usuario" @click="seleccionarVista('Registro')">
+        <v-list-item v-if="!usuario" :to="{ name: 'registro'}">
           <v-list-item-avatar>
             <v-icon>contact_mail</v-icon>
           </v-list-item-avatar>
@@ -33,7 +33,7 @@
         </v-list-item>
 
         <!-- Ingresar -->
-        <v-list-item v-if="!usuario" @click="seleccionarVista('Login')">
+        <v-list-item v-if="!usuario" :to="{ name: 'login'}">
           <v-list-item-avatar>
             <v-icon>arrow_forward</v-icon>
           </v-list-item-avatar>
@@ -62,7 +62,10 @@
         <span > {{this.titulo}} </span>
       </v-toolbar-title> 
       <v-spacer></v-spacer>     
-      <span v-if="usuario!=null"> {{ usuario.nombre}} </span>
+      <router-link :to="{name:'perfil'}" id="cajaPerfil">
+        <span v-if="usuario!=null"> {{ usuario.nombre}} </span>
+      </router-link>
+      
     </v-app-bar>
 
 
@@ -121,13 +124,13 @@
 
 <script>
   //import Home from './views/Home.vue'
-  import Registro from './views/usuario/Registro.vue'
-  import Login from './views/usuario/Login.vue'
-  import Perfil from './views/usuario/Perfil.vue'
-  import Home from './views/Home.vue'
+  // import Registro from './views/usuario/Registro.vue'
+  // import Login from './views/usuario/Login.vue'
+  // import Perfil from './views/usuario/Perfil.vue'
+  // import Home from './views/Home.vue'
 
   export default {
-    components : {Registro, Login, Perfil, Home},
+    //components : {Registro, Login, Perfil, Home},
     name: 'App',
     data: () => ({
       componenteActual: 'Home',
@@ -170,6 +173,12 @@
     font-family: 'Great Vibes', cursive;
     font-size: 2rem;
     cursor: pointer;
+
+  }
+
+  #cajaPerfil{
+    color: white;
+    text-decoration: none;
 
   }
 </style> 

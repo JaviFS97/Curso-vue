@@ -15,9 +15,13 @@
                     <v-card-text>     
                         <v-layout justify-end>
                             <v-btn @click="ingresar" color="secondary" :disabled="$v.formulario.$invalid">Ingresar</v-btn>    
-                        </v-layout>           
-                        
+                        </v-layout>      
                     </v-card-text>
+                    <v-card-actions>
+                        <v-btn :to="{name:'registro'}" flat color="secondary"> 
+                            ¿No tienes cuenta? Registrate.
+                        </v-btn>
+                    </v-card-actions>
                 </v-card>
 
             </v-slide-y-transition>

@@ -16,9 +16,13 @@
                     <v-card-text>     
                         <v-layout justify-end>
                             <v-btn @click="vista++" color="secondary" :disabled="$v.formulario1.$invalid">Siguiente</v-btn>    
-                        </v-layout>            
-                        
+                        </v-layout>       
                     </v-card-text>
+                    <v-card-actions>
+                        <v-btn :to="{name:'login'}" flat color="secondary"> 
+                            ¿Ya tienes cuenta? Inicia sesión.
+                        </v-btn>
+                    </v-card-actions>
                 </v-card>
 
                 <v-card v-if="vista==2" :key="2">
