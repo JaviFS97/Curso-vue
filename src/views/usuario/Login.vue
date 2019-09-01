@@ -115,6 +115,8 @@ import { setTimeout } from 'timers';
                     this.$store.commit('mostrarNotificacionExito', "Has inicido sesion.", 6000)
 
                     this.$store.commit('ocultarOcupado')
+
+                    this.$router.push({ name: 'home'})
                 }, 1000)
 
             }

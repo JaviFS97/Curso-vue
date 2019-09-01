@@ -58,8 +58,8 @@
 
     <v-app-bar color="primary" dark app>
       <v-app-bar-nav-icon @click="menu = !menu"></v-app-bar-nav-icon>
-      <v-toolbar-title @click="seleccionarVista('Home')" class="logo">
-        <span > {{this.titulo}} </span>
+      <v-toolbar-title  @click="$router.push({name:'home'})" class="logo">
+        <span> {{this.titulo}} </span>
       </v-toolbar-title> 
       <v-spacer></v-spacer>     
       <router-link :to="{name:'perfil'}" id="cajaPerfil">
@@ -133,22 +133,18 @@
     //components : {Registro, Login, Perfil, Home},
     name: 'App',
     data: () => ({
-      componenteActual: 'Home',
       titulo : 'Super Opera',
       menu: false
     }),
     methods: {
-      seleccionarVista (nombreVista) {
-        this.componenteActual = nombreVista
-        // Una vez seleccionado la vista, cerrar el menu.
-        this.menu = false
-      },
       ocultarNotificacion(){
         this.$store.commit('ocultarNotificacion')
       },
       cerrarSesion(){
         this.$store.dispatch('sesion/cerrarSesion')
         this.menu = false
+
+        this.$router.push({name:'login'})
       }
     },
     computed: {
