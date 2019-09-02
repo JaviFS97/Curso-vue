@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container v-if="obra">
       
         <v-row justify="center">
             <h1> {{obra.titulo}} </h1>
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { log } from 'util';
     export default {
         data(){
             return {
@@ -42,7 +41,7 @@ import { log } from 'util';
             this.obra = this.obras.find( obra => obra.oid == oid)
             // Si no hay ninguna obra con esa oid, redirigir a un 404
             if (!this.obra)
-                log("404")
+                this.$router.push({name:'404'})
         }
     }
 </script>

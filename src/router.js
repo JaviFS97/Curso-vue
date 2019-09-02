@@ -6,6 +6,7 @@ import Registro from './views/usuario/Registro.vue'
 import Perfil from './views/usuario/Perfil.vue'
 import Obra from './views/teatro/Obra.vue'
 import Presentacion from './views/teatro/Presentacion.vue'
+import NotFound from './views/NotFound.vue'
 
 import store from '@/store'
 
@@ -55,6 +56,16 @@ const router = new Router({
       path: '/:oid/:tid/:fecha',
       name: 'presentacion',
       component: Presentacion
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: NotFound
+    },
+    // Si tras haber recorrido todas las rutas ninguna ha coincidido, se mostrará esta.
+    {
+      path: '*',
+      component: NotFound
     },
   ]
 })
