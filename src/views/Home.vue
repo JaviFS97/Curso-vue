@@ -4,9 +4,9 @@
 		<v-row justify="center" class="home-titulo">			
 			<h1>Súper Ópera</h1>					
 		</v-row>
-		<v-row>
+		<v-row>			
 			<v-col xs="12" sm="6" md="4" v-for="obra in obras" :key="obra.oid">
-				<v-card >
+				<v-card :to="{name:'obra', params:{ oid: obra.oid}}">
 					<v-img :src="obra.portada">
 						<v-row justify="center">
 							<v-card-text class="home-obra-titulo">
@@ -16,7 +16,7 @@
 
 					</v-img>
 				</v-card>
-			</v-col>
+			</v-col>			
 		</v-row>
 
 	</v-container>
