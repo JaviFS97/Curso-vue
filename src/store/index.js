@@ -3,12 +3,14 @@ import Vuex from 'vuex'
 
 // Importo los modulos
 import sesion from './modules/sesion.js'
+import teatro from './modules/teatro.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    sesion
+    sesion,
+    teatro
   },
   state: {
     notificacion: {

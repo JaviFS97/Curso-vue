@@ -1,20 +1,38 @@
 <template>
-	<v-row >
-		<v-col>
-			<v-row justify="center" class="home-titulo">			
-				<h1>Súper Ópera</h1>					
-			</v-row>
-			<v-row>
-				<v-col v-for="item in 12" :key="item">
-					<v-card >
-						<v-img width="200px" height="200px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/1024px-Solid_white.svg.png"></v-img>
-					</v-card>
-				</v-col>
-			</v-row>
-		</v-col>
+	<v-container>
 
-	</v-row>
+		<v-row justify="center" class="home-titulo">			
+			<h1>Súper Ópera</h1>					
+		</v-row>
+		<v-row>
+			<v-col xs="12" sm="6" md="4" v-for="obra in obras" :key="obra.oid">
+				<v-card >
+					<v-img :src="obra.portada">
+						<v-row justify="center">
+							<v-card-text class="home-obra-titulo">
+								{{obra.titulo}}
+							</v-card-text>
+						</v-row>
+
+					</v-img>
+				</v-card>
+			</v-col>
+		</v-row>
+
+	</v-container>
+
 </template>
+
+
+<script>
+	export default {
+		computed: {
+			obras(){
+				return this.$store.state.teatro.obras
+			}
+		}	
+	}
+</script>
 
 
 <style>
@@ -24,4 +42,12 @@
 		color: #553f75;
 		text-shadow: 1px 1px 5px #acacac;
 	}
+
+	.home-obra-titulo{
+		font-size: 2rem;
+		color: white;
+		opacity: 0.9;
+
+	}
+
 </style>
