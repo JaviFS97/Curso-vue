@@ -8,10 +8,8 @@
 			<v-col xs="12" sm="6" md="4" v-for="obra in obras" :key="obra.oid">
 				<v-card :to="{name:'obra', params:{ oid: obra.oid}}">
 					<v-img :src="obra.portada">
-						<v-row justify="center">
-							<v-card-text class="home-obra-titulo">
+						<v-row justify="center" class="home-obra-titulo">							
 								{{obra.titulo}}
-							</v-card-text>
 						</v-row>
 
 					</v-img>
@@ -47,7 +45,6 @@
 		font-size: 2rem;
 		color: white;
 		opacity: 0.9;
-
 	}
 
 </style>

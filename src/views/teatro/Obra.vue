@@ -12,8 +12,9 @@
         </v-row>
 
         <v-row justify="center">       
-            <v-btn v-for="presentacion in obra.presentaciones" :key="presentacion.pid">
-                {{ presentacion.teatro.nombre + " - " + presentacion.fecha}}
+            <v-btn 
+            :to="{name: 'presentacion', params:{ oid: p.obra.oid, tid: p.teatro.tid, fecha: p.fecha}}" v-for="p in obra.presentaciones" :key="p.pid" >
+                {{ p.teatro.nombre + " - " + p.fecha}}
             </v-btn>
         </v-row>
 
