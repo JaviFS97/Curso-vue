@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Home from './views/Home.vue'
+
 import Login from './views/usuario/Login.vue'
 import Registro from './views/usuario/Registro.vue'
 import Perfil from './views/usuario/Perfil.vue'
+import VerificacionEmail from './views/usuario/VerificacionEmail.vue'
+
 import Obra from './views/teatro/Obra.vue'
 import Presentacion from './views/teatro/Presentacion.vue'
 import NotFound from './views/NotFound.vue'
@@ -30,6 +34,11 @@ const router = new Router({
       path: '/sesion/registro',
       name: 'registro',
       component: Registro
+    },
+    {
+      path: '/sesion/verificacion-email',
+      name: 'verificacionEmail',
+      component: VerificacionEmail
     },
     {
       path: '/usuario/perfil',

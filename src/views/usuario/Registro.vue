@@ -244,6 +244,8 @@
                     this.$store.commit('mostrarOcupado',ocupado)
                     let uid = await auth.createUserWithEmailAndPassword(this.formulario1.email, this.formulario1.password)
 
+                    await auth.currentUser.sendEmailVerification()
+
                     // Creamos un usuario
                     let usuario = {
                         uid,
@@ -258,7 +260,7 @@
 
                     this.$store.commit('sesion/actualizarUsuario', usuario)
                     this.$store.commit('mostrarNotificacionExito', "Registro exitoso.", 4000)
-                    this.$router.push({ name: 'home'})
+                    this.$router.push({ name: 'verificacionEmail'})
 
                 }catch(error){
                     if(error.code == 'auth/email-already-in-use')
