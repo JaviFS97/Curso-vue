@@ -261,7 +261,10 @@
                     this.$router.push({ name: 'home'})
 
                 }catch(error){
-                    this.$store.commit('mostrarNotificacionError', "Ocurrió un error durante el registro.", 4000)
+                    if(error.code == 'auth/email-already-in-use')
+                        this.$store.commit('mostrarNotificacionAdvertencia', "Este email ya está en uso.", 4000)
+                    else
+                        this.$store.commit('mostrarNotificacionError', "Ocurrió un error durante el registro.", 4000)
                 }
 
                 this.$store.commit('ocultarOcupado')
