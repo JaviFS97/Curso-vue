@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {auth} from '@/firebase'
+//import store from '@/store'
 
 import Home from './views/Home.vue'
 
@@ -12,7 +14,6 @@ import Obra from './views/teatro/Obra.vue'
 import Presentacion from './views/teatro/Presentacion.vue'
 import NotFound from './views/NotFound.vue'
 
-import store from '@/store'
 
 Vue.use(Router)
 
@@ -80,12 +81,21 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  let user = auth.currentUser
+
   if(to.matched.some( record => record.meta.autenticado)){
     // Debemos importar store porque en 'router.js' no tenemos una instancia de vue.
-    if(store.state.sesion.usuario)
-        next()
-    else
+    if(user){
+        // El metodo de inicio sesion sea por email y que este verificado. 
+        if(user.providerData[0].providerId == 'password' && !user.emailVerified){
+          next( {name:'verificacionEmail'})
+        }
+        else{
+          next()
+        }    
+    }else{
         next({name:'login'})
+    }
   }else{
     next()
   }
