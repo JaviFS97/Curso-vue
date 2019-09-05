@@ -9,7 +9,7 @@
                         </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
-                        <v-text-field label="Email" v-model="formulario.email" :error-messages="this.erroresEmail" @blur="$v.formulario.email.$touch()"></v-text-field>
+                        <v-text-field label="Email" autofocus v-model="formulario.email" :error-messages="this.erroresEmail" @blur="$v.formulario.email.$touch()"></v-text-field>
                         <v-text-field label="Password" type="password" v-model="formulario.password" :error-messages="this.erroresPassword" @input="$v.formulario.password.$touch()" @keyup.enter="ingresar"></v-text-field>
                     </v-card-text>
                     <v-card-text>     
@@ -33,7 +33,8 @@
 
     // Importamos las funciones que vamos a usar para la validacion de la variable 'email'.
     import {required, email, minLength, maxLength} from 'vuelidate/lib/validators'
-    import { setTimeout } from 'timers';
+    import {auth} from '@/firebase'
+    
 
     export default {
         data(){
@@ -79,45 +80,61 @@
             }
         },
         methods: {
-            ingresar() {
+            async ingresar() {
                 // Por este motivo agrupamos email y password en un objeto formulario que los contenga.
                 if(this.$v.formulario.$invalid) {
                     this.$v.formulario.$touch()
                     return
                 }
   
-                // Creamos un usuario
-                let usuario = {
-                    userName: 'newton',
-                    nombre: 'Isaac',
-                    apellidos: 'Newton',
-                    sexo: 'F',
-                    descripcion: 'añadir descripcion',
-                    biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
-                    fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
-                }
-
                 let ocupado = {
                     titulo: "Validando credenciales",
                     mensaje: "Estamos validando tu información..."
                 }
                 this.$store.commit('mostrarOcupado',ocupado)
 
-                setTimeout( () => {
+                try{
+                    let cred = await auth.signInWithEmailAndPassword(this.formulario.email, this.formulario.password)
+
+                    // Creamos un usuario
+                    let usuario = {
+                        uid: cred.user.uid,
+                        userName: 'newton',
+                        nombre: 'Isaac',
+                        apellidos: 'Newton',
+                        sexo: 'F',
+                        descripcion: 'añadir descripcion',
+                        biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
+                        fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
+                    }
+
                     /**
                      * Lo asociamos con el usuario que esta presente en la propiedad state de vuex. Dos formas:
                      *  1. Sin uso de mutacion: this.$store.state.usuario = usuario
                      *  2. Haciendo uso de mutacion.
                      */ 
                     this.$store.commit('sesion/actualizarUsuario', usuario)
-
-                    // Saludamos al usuario que acaba de logearse   
-                    this.$store.commit('mostrarNotificacionExito', "Has inicido sesion.", 6000)
-
                     this.$store.commit('ocultarOcupado')
-
+                    // Saludamos al usuario que acaba de logearse   
+                    this.$store.commit('mostrarNotificacionExito', "Has inicido sesion.", 4000)
                     this.$router.push({ name: 'home'})
-                }, 1000)
+                }catch(error){
+                    this.$store.commit('ocultarOcupado')
+                    this.$store.commit('mostrarNotificacionError', "Email o contraseña incorrectas.", 4000)
+                            
+                    switch(error.code){
+                        case 'auth/invalid-email':
+                        case 'auth/user-not-found':
+                        case 'auth/wrong-password':
+                            this.$store.commit('mostrarNotificacionError', "Email y/o contraseña incorrectas.", 4000)
+                            break
+                        
+                        default:
+                            this.$store.commit('mostrarNotificacionError', "Ocurrió un error durante el login.", 4000)
+                            break
+                    }
+                }
+
 
             }
         }
