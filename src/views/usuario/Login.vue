@@ -33,7 +33,7 @@
 
     // Importamos las funciones que vamos a usar para la validacion de la variable 'email'.
     import {required, email, minLength, maxLength} from 'vuelidate/lib/validators'
-import { setTimeout } from 'timers';
+    import { setTimeout } from 'timers';
 
     export default {
         data(){

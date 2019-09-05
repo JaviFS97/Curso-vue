@@ -93,6 +93,8 @@
 
 <script>
     import {required, email, minLength, maxLength, sameAs} from 'vuelidate/lib/validators'
+    // Importamos el modulo auth del archivo de firebase
+    import {auth} from '@/firebase'
 
     // Validador personalizado para que el nombre y apellidos puedan contener espacios y acentos.
     const validacionNombresYApellidos = (value) => /^(?! )(?!.* {2})[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]+$/.test(value)
@@ -229,11 +231,42 @@
             entrarVistaCalendario(){
                 this.$refs.referenciaCalendario.activePicker = 'YEAR'
             },
-            registrar(){
+            
+            async registrar(){
                 if(this.$v.fechaNacimiento.$invalid)
                     return
                 
-                alert("Registrando")
+                try{
+                    let ocupado = {
+                        titulo: "Creando registro",
+                        mensaje: "Estamos registrando tu información..."
+                    }
+                    this.$store.commit('mostrarOcupado',ocupado)
+                    let uid = await auth.createUserWithEmailAndPassword(this.formulario1.email, this.formulario1.password)
+
+                    // Creamos un usuario
+                    let usuario = {
+                        uid,
+                        userName: this.formulario2.nombre,
+                        nombre: this.formulario2.nombre,
+                        apellidos: this.formulario2.apellidos,
+                        sexo: 'F',
+                        descripcion: 'añadir descripcion',
+                        biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
+                        fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
+                    }
+
+                    this.$store.commit('sesion/actualizarUsuario', usuario)
+                    this.$store.commit('mostrarNotificacionExito', "Registro exitoso.", 4000)
+                    this.$router.push({ name: 'home'})
+
+                }catch(error){
+                    this.$store.commit('mostrarNotificacionError', "Ocurrió un error durante el registro.", 4000)
+                }
+
+                this.$store.commit('ocultarOcupado')
+                
+
             }
         }
     }
