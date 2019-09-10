@@ -34,9 +34,8 @@
                     </v-card-actions>
 
 
-                    <!-- -->
-                    <v-dialog v-model="restablecerPassword" persistent>
-                        
+                    <!-- Restablecimiento de la contrasenia -->
+                    <v-dialog v-model="restablecerPassword" persistent>                        
                         <v-card>
                             <v-toolbar color="primary" dark card>
                                 <v-toolbar-text>
@@ -99,6 +98,7 @@
                     password: '',
                 },
                 restablecerPassword: false,
+               
 
             }
         },
