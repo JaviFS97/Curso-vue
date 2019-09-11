@@ -98,6 +98,7 @@
                     password: '',
                 },
                 restablecerPassword: false,
+                emailEnvio: '',
                
 
             }
@@ -114,11 +115,11 @@
                     required,
                     minLength: minLength(6),
                     maxLength: maxLength(20)
-                },
-                emailEnvio: {
-                    required,
-                    email
                 }
+            },
+            emailEnvio: {
+                required,
+                email
             }
 
         },
