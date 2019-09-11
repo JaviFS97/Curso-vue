@@ -242,23 +242,10 @@
                         mensaje: "Estamos registrando tu información..."
                     }
                     this.$store.commit('mostrarOcupado',ocupado)
-                    let uid = await auth.createUserWithEmailAndPassword(this.formulario1.email, this.formulario1.password)
+                    await auth.createUserWithEmailAndPassword(this.formulario1.email, this.formulario1.password)
 
                     await auth.currentUser.sendEmailVerification()
 
-                    // Creamos un usuario
-                    let usuario = {
-                        uid,
-                        userName: this.formulario2.nombre,
-                        nombre: this.formulario2.nombre,
-                        apellidos: this.formulario2.apellidos,
-                        sexo: 'F',
-                        descripcion: 'añadir descripcion',
-                        biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
-                        fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
-                    }
-
-                    this.$store.commit('sesion/actualizarUsuario', usuario)
                     this.$store.commit('mostrarNotificacionExito', "Registro exitoso.", 4000)
                     this.$router.push({ name: 'verificacionEmail'})
 

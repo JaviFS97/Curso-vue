@@ -155,26 +155,14 @@
                 this.$store.commit('mostrarOcupado',ocupado)
 
                 try{
-                    let cred = await auth.signInWithEmailAndPassword(this.formulario.email, this.formulario.password)
+                    await auth.signInWithEmailAndPassword(this.formulario.email, this.formulario.password)
 
-                    // Creamos un usuario
-                    let usuario = {
-                        uid: cred.user.uid,
-                        userName: 'newton',
-                        nombre: 'Isaac',
-                        apellidos: 'Newton',
-                        sexo: 'F',
-                        descripcion: 'añadir descripcion',
-                        biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
-                        fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
-                    }
-
+                    
                     /**
                      * Lo asociamos con el usuario que esta presente en la propiedad state de vuex. Dos formas:
                      *  1. Sin uso de mutacion: this.$store.state.usuario = usuario
                      *  2. Haciendo uso de mutacion.
                      */ 
-                    this.$store.commit('sesion/actualizarUsuario', usuario)
                     this.$store.commit('ocultarOcupado')
                     // Saludamos al usuario que acaba de logearse   
                     this.$store.commit('mostrarNotificacionExito', "Has inicido sesion.", 4000)

@@ -137,21 +137,8 @@
                 
             },
             async iniciarSesion(){
-                let cred = await auth.signInWithEmailAndPassword(this.email, this.formulario1.password)
+                await auth.signInWithEmailAndPassword(this.email, this.formulario1.password)
 
-                // Creamos un usuario
-                let usuario = {
-                    uid: cred.user.uid,
-                    userName: 'newton',
-                    nombre: 'Isaac',
-                    apellidos: 'Newton',
-                    sexo: 'F',
-                    descripcion: 'añadir descripcion',
-                    biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
-                    fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
-                }
-
-                this.$store.commit('sesion/actualizarUsuario', usuario)
                 this.$store.commit('ocultarOcupado')
                 // Saludamos al usuario que acaba de logearse   
                 this.$store.commit('mostrarNotificacionExito', "Tu contraseña ha sido cambiando con exito, has iniciado sesión.", 4000)
