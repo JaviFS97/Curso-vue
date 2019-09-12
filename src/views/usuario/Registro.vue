@@ -94,7 +94,7 @@
 <script>
     import {required, email, minLength, maxLength, sameAs} from 'vuelidate/lib/validators'
     // Importamos el modulo auth del archivo de firebase
-    import {auth} from '@/firebase'
+    import {auth, db} from '@/firebase'
 
     // Validador personalizado para que el nombre y apellidos puedan contener espacios y acentos.
     const validacionNombresYApellidos = (value) => /^(?! )(?!.* {2})[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]+$/.test(value)
@@ -242,7 +242,9 @@
                         mensaje: "Estamos registrando tu información..."
                     }
                     this.$store.commit('mostrarOcupado',ocupado)
-                    await auth.createUserWithEmailAndPassword(this.formulario1.email, this.formulario1.password)
+                    var credenciales = await auth.createUserWithEmailAndPassword(this.formulario1.email, this.formulario1.password)
+
+                    await this.registrarUsuarioDB(credenciales)
 
                     await auth.currentUser.sendEmailVerification()
 
@@ -259,7 +261,23 @@
                 this.$store.commit('ocultarOcupado')
                 
 
-            }
+            },
+            async registrarUsuarioDB(credenciales){
+                let usuario = {
+                    uid: credenciales.user.uid,
+                    userName: this.formulario2.nombre,
+                    nombre: this.formulario2.nombre,
+                    apellidos: this.formulario2.apellidos,
+                    fechaNacimiento: new Date(this.fechaNacimiento),
+                    sexo: 'F',
+                    descripcion: 'añadir descripcion',
+                    biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
+                    fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
+                }
+
+                // Creamos o usamos la coleccion usuarios, donde dentro habra un objeto con el mismo nombre que id del usuario.
+                db.collection('usuarios').doc(usuario.uid).set(usuario)
+            },
         }
     }
 </script>

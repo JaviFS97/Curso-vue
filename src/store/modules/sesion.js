@@ -24,9 +24,9 @@ export default({
         descripcion: 'añadir descripcion',
         biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
         fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
-    }
+      }
 
-    context.commit("actualizarUsuario", usuario)
+      context.commit("actualizarUsuario", usuario)
 
     },
     cerrarSesion(context){
