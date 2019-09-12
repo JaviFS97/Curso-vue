@@ -1,5 +1,5 @@
-import {auth} from '@/firebase'
-
+import {auth, db} from '@/firebase'
+import router from '@/router'
 
 export default({
   namespaced: true,
@@ -13,20 +13,22 @@ export default({
     },
   },
   actions: {
-    iniciarSesion(context, uid){
-      // Creamos un usuario
-      let usuario = {
-        uid,
-        userName: 'newton',
-        nombre: 'Isaac',
-        apellidos: 'Newton',
-        sexo: 'F',
-        descripcion: 'añadir descripcion',
-        biografia: 'https://es.wikipedia.org/wiki/Isaac_Newton',
-        fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
+    async iniciarSesion(context, uid){
+      try{
+        let doc = await db.collection('usuarios').doc(uid).get()
+        if(doc.exists){
+          let usuario = doc.data()
+          context.commit("actualizarUsuario", usuario)
+        }else{
+          // Si no existe un documento con dicha uid, le enviamos al registro.
+          router.push( {name: 'registro'})
+        }
+
+      }catch(error){
+        // {root: true} sirve para indicar que esta funcion se encuentra en el padre.
+        commit('mostrarError', 'Ocurrió un error al consultar la informacion del usuario', {root: true})
       }
 
-      context.commit("actualizarUsuario", usuario)
 
     },
     cerrarSesion(context){
