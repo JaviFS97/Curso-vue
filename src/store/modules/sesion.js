@@ -11,6 +11,12 @@ export default({
     actualizarUsuario(state, usuario){
       state.usuario = usuario
     },
+    actualizarNombreYApellidos(state, payload){
+      if(state.usuario){
+        state.usuario.nombre = payload.nombre
+        state.usuario.apellidos = payload.apellidos
+      }
+    }
   },
   actions: {
     async iniciarSesion(context, uid){
@@ -26,7 +32,7 @@ export default({
 
       }catch(error){
         // {root: true} sirve para indicar que esta funcion se encuentra en el padre.
-        commit('mostrarError', 'Ocurrió un error al consultar la informacion del usuario', {root: true})
+        context.commit('mostrarError', 'Ocurrió un error al consultar la informacion del usuario', {root: true})
       }
 
 
