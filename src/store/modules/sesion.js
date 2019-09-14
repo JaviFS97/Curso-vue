@@ -11,10 +11,11 @@ export default({
     actualizarUsuario(state, usuario){
       state.usuario = usuario
     },
-    actualizarNombreYApellidos(state, payload){
+    actualizarDatosUsuario(state, payload){
       if(state.usuario){
         state.usuario.nombre = payload.nombre
         state.usuario.apellidos = payload.apellidos
+        state.usuario.descripcion = payload.descripcion
       }
     }
   },
