@@ -16,6 +16,7 @@ export default({
         state.usuario.nombre = payload.nombre
         state.usuario.apellidos = payload.apellidos
         state.usuario.descripcion = payload.descripcion
+        state.usuario.biografia = payload.biografia
       }
     }
   },

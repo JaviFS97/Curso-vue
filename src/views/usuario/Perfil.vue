@@ -37,7 +37,7 @@
                 <div class="mt-5">
                     <v-textarea label="Descripcion" v-model=" formulario.descripcion" counter="300"></v-textarea>
                 </div>
-                <a :href="usuario.biografia" class="ma-2">Biografia</a>
+                 <v-text-field label="Biografia" v-model="formulario.biografia"></v-text-field>
             </v-card-text>
         </v-card>
 
@@ -55,7 +55,8 @@
                 formulario: {
                     nombre: '',
                     apellidos: '',
-                    descripcion: ''
+                    descripcion: '',
+                    biografia: ''
                 }
             }
         },
@@ -80,7 +81,8 @@
                 try{
                     await db.collection('usuarios').doc(this.usuario.uid).update({nombre: this.formulario.nombre,
                                                                                   apellidos: this.formulario.apellidos,
-                                                                                  descripcion: this.formulario.descripcion})
+                                                                                  descripcion: this.formulario.descripcion,
+                                                                                  biografia: this.formulario.biografia})
                     this.$store.commit('sesion/actualizarDatosUsuario', cambiosUsuario)
                     this.$store.commit('mostrarNotificacionExito', "Datos actualizados con exito.", 4000)
                 }catch(error){
@@ -97,6 +99,7 @@
                 this.formulario.nombre = this.usuario.nombre
                 this.formulario.apellidos = this.usuario.apellidos
                 this.formulario.descripcion = this.usuario.descripcion
+                this.formulario.biografia = this.usuario.biografia
                 // Activamos el modo edicion.
                 this.editando = true
             }
