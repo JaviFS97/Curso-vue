@@ -2,6 +2,7 @@
     <v-layout justify-center="" align-center>
         <v-flex sm10>
             <v-slide-y-transition mode="out-in" @enter="entrarVistaCalendario">
+                
                 <v-card v-if="vista==1" :key="1">
                     <v-toolbar color="primary" dark card>
                         <v-toolbar-title>
@@ -28,12 +29,13 @@
                 <v-card v-if="vista==2" :key="2">
                     <v-toolbar color="primary" dark card>
                         <v-toolbar-title>
-                            Ingresa tu nombre y apellidos
+                            Ingresa tu nombre, apellidos y nombre de usuario.
                         </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
                         <v-text-field label="Nombre" v-model="formulario2.nombre" :error-messages="erroresNombre" @blur="$v.formulario2.nombre.$touch()"></v-text-field>
                         <v-text-field label="Apellidos" v-model="formulario2.apellidos" :error-messages="erroresApellidos" @blur="$v.formulario2.apellidos.$touch()"></v-text-field>
+                        <v-text-field label="Username" v-model="formulario2.userName"  :error-messages="erroresUserName" @blur="$v.formulario2.userName.$touch()"></v-text-field> 
                     </v-card-text>
                     <v-card-text>    
                         <v-container>
@@ -54,6 +56,7 @@
                         
                     </v-card-text>
                 </v-card>
+
 
                 <v-card v-if="vista==3" :key="3">
                     <v-toolbar color="primary" dark card>
@@ -85,14 +88,13 @@
                     </v-card-text>                                            
                 </v-card>
 
-
             </v-slide-y-transition>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
-    import {required, email, minLength, maxLength, sameAs} from 'vuelidate/lib/validators'
+    import {required, email, minLength, maxLength, sameAs, alphaNum} from 'vuelidate/lib/validators'
     // Importamos el modulo auth del archivo de firebase
     import {auth, db} from '@/firebase'
 
@@ -112,10 +114,12 @@
                 },
                 formulario2: {
                     nombre: '',
-                    apellidos: ''
+                    apellidos: '',
+                    userName: ''
                 },
                 fechaNacimiento: null,
-                fechaMaximaISO: ''
+                fechaMaximaISO: '',
+
             }
         },
         created(){
@@ -155,11 +159,18 @@
                     minLength: minLength(6),
                     maxLength: maxLength(30), 
                     validacionNombresYApellidos // Validacion propia, eliminamos la validacion de vuelidate 'alpha'
+                },
+                userName: {
+                    required,
+                    minLength: minLength(3),
+                    maxLength: maxLength(20),   
+                    alphaNum
                 }
             },
             fechaNacimiento: {
                 required
-            }
+            },
+
         },
         computed: {
             erroresEmail() {
@@ -182,7 +193,7 @@
                     return errores
                 }
 
-            },
+            },          
             erroresRepetirPassword() {
                 let errores = []
                 if (!this.$v.formulario1.password.$dirty){ return errores}
@@ -213,19 +224,35 @@
                     if (!this.$v.formulario2.apellidos.validacionNombresYApellidos){ errores.push("Tu apellido solo puede contener letras del alfabeto.")}
                     return errores
                 } 
-            }                         
+            },
+            erroresUserName() {
+                let errores = []
+                if (!this.$v.formulario2.userName.$dirty){ return errores}
+                else{
+                    if (!this.$v.formulario2.userName.required){ errores.push("Ingresa un username.")}
+                    if (!this.$v.formulario2.userName.minLength){ errores.push("Ingresa un username con al menos 6 caracteres.")}
+                    if (!this.$v.formulario2.userName.maxLength){ errores.push("Ingresa un username con menos de 20 caracteres.")}
+                    if (!this.$v.formulario2.userName.alphaNum){ errores.push("El username solo puede contener caracteres del alfabeto y numeros.")}
+
+                    return errores
+                } 
+            }                               
         },
         methods: {
-            siguienteVista(numVista){
+            async siguienteVista(numVista){
                 switch(numVista){
                     //case 1:
                         // No es necesario porque el boton siguiente no se activa hasta que el formulario1 sea valido.
                     case 2:
-                        if (this.$v.formulario2.$invalid)
-                            this.$v.formulario2.$touch()
-                        else
-                            this.vista++
-
+                        let userNameExistente = await db.collection('userNames').doc(this.formulario2.userName.toLowerCase()).get() 
+                        if(userNameExistente.exists){
+                            this.$store.commit('mostrarNotificacionAdvertencia', "El Username ya existe, escoge otro.", 2000)
+                        }else{                        
+                            if (this.$v.formulario2.$invalid)
+                                this.$v.formulario2.$touch()
+                            else
+                                this.vista++
+                        }
                 } 
             },
             entrarVistaCalendario(){
@@ -235,7 +262,9 @@
             async registrar(){
                 if(this.$v.fechaNacimiento.$invalid)
                     return
-                
+
+                let userNameExistente = await db.collection('userNames').doc(this.formulario2.userName.toLowerCase()).get() 
+ 
                 try{
                     let ocupado = {
                         titulo: "Creando registro",
@@ -259,13 +288,11 @@
                 }
 
                 this.$store.commit('ocultarOcupado')
-                
-
+            
             },
             async registrarUsuarioDB(credenciales){
                 let usuario = {
                     uid: credenciales.user.uid,
-                    userName: this.formulario2.nombre,
                     nombre: this.formulario2.nombre,
                     apellidos: this.formulario2.apellidos,
                     fechaNacimiento: new Date(this.fechaNacimiento),
@@ -275,8 +302,20 @@
                     fotoPerfil: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Isaac_Newton_%281643-1727%29.jpg'
                 }
 
+                let userName = {
+                    userName: this.formulario2.userName,
+                    uid: credenciales.user.uid,
+                }
+
+                // Escrituras en lotes o batch.
+                let batch = db.batch()
                 // Creamos o usamos la coleccion usuarios, donde dentro habra un objeto con el mismo nombre que id del usuario.
-                db.collection('usuarios').doc(usuario.uid).set(usuario)
+                batch.set(db.collection('usuarios').doc(usuario.uid), usuario)
+                //db.collection('usuarios').doc(usuario.uid).set(usuario)
+                batch.set(db.collection('userNames').doc(this.formulario2.userName.toLowerCase()), userName)
+
+                await batch.commit()
+
             },
         }
     }
