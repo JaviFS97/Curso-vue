@@ -35,7 +35,7 @@
 
 
                     <!-- Restablecimiento de la contrasenia -->
-                    <v-dialog v-model="restablecerPassword" persistent>                        
+                    <v-dialog max-width="600px" v-model="restablecerPassword" persistent>                        
                         <v-card>
                             <v-toolbar color="primary" dark card>
                                 <v-toolbar-text>
@@ -48,7 +48,7 @@
                             </v-card-text>
 
                             <v-card-text>
-                                <v-text-field label="Email" autofocus v-model="emailEnvio" :error-messages="this.erroresEmail" @blur="$v.emailEnvio.$touch()"></v-text-field>
+                                <v-text-field label="Email" autofocus v-model="emailEnvio" :error-messages="this.erroresEmailRestablecimiento" @blur="$v.emailEnvio.$touch()"></v-text-field>
                             </v-card-text>
 
                             <v-card-text>
@@ -129,6 +129,13 @@
                 if (!this.$v.formulario.email.$dirty){ return errores}
                 if (!this.$v.formulario.email.required){ errores.push("Ingresa tu email.")}
                 if (!this.$v.formulario.email.email){ errores.push("Ingresa un email valido.")}
+                return errores
+            },
+            erroresEmailRestablecimiento() {
+                let errores = []
+                if (!this.$v.emailEnvio.$dirty){ return errores}
+                if (!this.$v.emailEnvio.required){ errores.push("Ingresa tu email.")}
+                if (!this.$v.emailEnvio.email){ errores.push("Ingresa un email valido.")}
                 return errores
             },
             erroresPassword() {
