@@ -1,9 +1,8 @@
 <template>
     <v-layout text-center align-start justify-center class="mt-10">
         
-        <v-card v-if="usuario" max-width="250px">
-            
-            <v-btn v-if="!editando" @click=" editar()" color="secondary" small fab absolute top right>
+        <v-card max-width="250px">
+            <v-btn v-if=" puedoModificarUsuario && !editando" @click=" editar()" color="secondary" small fab absolute top right>
                 <v-icon >edit</v-icon>
             </v-btn>
 
@@ -18,13 +17,13 @@
             <!-- Card informativa, sin estar editando -->
             <v-card-text v-if="!editando">
                 <div >
-                    {{ usuario.nombre + ' ' + usuario.apellidos }}
+                    {{ usuarioConsultar.nombre + ' ' + usuarioConsultar.apellidos }}
                 </div> 
-                <v-img class="ma-2 fotoPerfil" :src=" usuario.fotoPerfil" alt=""></v-img>
+                <v-img class="ma-2 fotoPerfil" :src=" usuarioConsultar.fotoPerfil" alt=""></v-img>
                 <div class="ma-5 descripcion">
-                    {{ usuario.descripcion }}
+                    {{ usuarioConsultar.descripcion }}
                 </div>
-                <a :href="usuario.biografia" class="ma-2">Biografia</a>
+                <a :href="usuarioConsultar.biografia" class="ma-2">Biografia</a>
             </v-card-text>
 
             <!-- Card de edicion -->
@@ -33,7 +32,7 @@
                 <v-text-field label="Nombre" v-model="formulario.nombre"></v-text-field>
                 <v-text-field label="Apellidos" v-model="formulario.apellidos"></v-text-field>
                 
-                <v-img class="ma-2 fotoPerfil" :src=" usuario.fotoPerfil" alt=""></v-img>
+                <v-img class="ma-2 fotoPerfil" :src=" usuarioConsultar.fotoPerfil" alt=""></v-img>
                 <div class="mt-5">
                     <v-textarea label="Descripcion" v-model=" formulario.descripcion" counter="300"></v-textarea>
                 </div>
@@ -57,15 +56,52 @@
                     apellidos: '',
                     descripcion: '',
                     biografia: ''
-                }
+                },
+                usuarioConsultar: ''
+            }
+        },
+        created(){
+            this.consultarUsuario()
+        },
+        watch: {
+            // Si cambia la ruta, lanzar la funcion de consultar usuario. Si no, vue reutiliza el componente con los datos del perfil anterior.
+            '$route' (){
+                this.consultarUsuario()
             }
         },
         computed: {
             usuario(){
                 return this.$store.state.sesion.usuario
+            },
+            puedoModificarUsuario(){
+                return this.usuario.userName == this.usuarioConsultar.userName
             }
         },
         methods:{
+            async consultarUsuario(){
+                let userNameParametro = this.$route.params.userName.toLowerCase()
+
+                try{
+
+                    let userNameDoc = await db.collection('userNames').doc(userNameParametro).get()
+
+                    if(userNameDoc.exists){
+                        let userName = userNameDoc.data()
+                        let usuarioDoc = await db.collection('usuarios').doc(userName.uid).get()
+
+                        if (usuarioDoc.exists){
+                            this.usuarioConsultar = usuarioDoc.data()
+                        }
+                        else{
+                            this.$router.push({name: '404'})
+                        }
+                    }else{
+                        this.$router.push({name: '404'})
+                    }
+                }catch(error){
+                    this.$router.push({name: '404'})
+                }
+            },
             async actualizarDatos(){
                 let ocupado = {
                     titulo: "Validando credenciales",

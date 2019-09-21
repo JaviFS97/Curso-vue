@@ -244,7 +244,7 @@
                     //case 1:
                         // No es necesario porque el boton siguiente no se activa hasta que el formulario1 sea valido.
                     case 2:
-                        let userNameExistente = await db.collection('userNames').doc(this.formulario2.userName.toLowerCase()).get() 
+                        var userNameExistente = await db.collection('userNames').doc(this.formulario2.userName.toLowerCase()).get() 
                         if(userNameExistente.exists){
                             this.$store.commit('mostrarNotificacionAdvertencia', "El Username ya existe, escoge otro.", 2000)
                         }else{                        
@@ -262,8 +262,6 @@
             async registrar(){
                 if(this.$v.fechaNacimiento.$invalid)
                     return
-
-                let userNameExistente = await db.collection('userNames').doc(this.formulario2.userName.toLowerCase()).get() 
  
                 try{
                     let ocupado = {
@@ -293,6 +291,7 @@
             async registrarUsuarioDB(credenciales){
                 let usuario = {
                     uid: credenciales.user.uid,
+                    userName: this.formulario2.userName, 
                     nombre: this.formulario2.nombre,
                     apellidos: this.formulario2.apellidos,
                     fechaNacimiento: new Date(this.fechaNacimiento),

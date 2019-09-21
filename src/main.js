@@ -21,15 +21,28 @@ auth.onAuthStateChanged( user => {
     // Si user no es nulo es porque inicio sesion.
     if(user){
       store.dispatch('sesion/iniciarSesion', user.uid)
+      .then( () => {
+        iniciarVue()
+      })
     }else{
       store.dispatch('sesion/cerrarSesion')
+      .then( () => {
+        iniciarVue()
+      })
     }
 });
 
+let vue = null
 
-new Vue({
-  vuetify,
-  store,
-  router,
-  render: h => h(App)
-}).$mount('#app')
+function iniciarVue(){
+  if(!vue){
+    vue = new Vue({
+      vuetify,
+      store,
+      router,
+      render: h => h(App)
+    }).$mount('#app')
+    
+  }
+}
+

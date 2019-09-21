@@ -13,7 +13,7 @@
         </v-list-item>
 
         <!-- Perfil -->
-        <v-list-item v-if="usuario" :to="{ name: 'perfil'}"> 
+        <v-list-item v-if="usuario" :to="{ name: 'perfil', params: { userName: usuario.userName}}"> 
           <v-list-item-avatar>
             <v-icon>account_circle</v-icon>
           </v-list-item-avatar>
@@ -62,8 +62,8 @@
         <span> {{this.titulo}} </span>
       </v-toolbar-title> 
       <v-spacer></v-spacer>     
-      <router-link :to="{name:'perfil'}" id="cajaPerfil">
-        <span v-if="usuario!=null"> {{ usuario.nombre}} </span>
+      <router-link v-if="usuario!=null" :to="{name:'perfil', params: { userName: usuario.userName}}" id="cajaPerfil">
+        <span> {{ usuario.nombre}} </span>
       </router-link>
       
     </v-app-bar>
